@@ -1,0 +1,74 @@
+﻿Build started 11/5/2015 11:47:52 PM.
+     1>Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Project 5 Scene Graph and Culling\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /Ic:\lib\glut /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Cube.cpp Geode.cpp Group.cpp House.cpp main.cpp Camera.cpp Color.cpp Light.cpp Material.cpp Matrix4.cpp Drawable.cpp DrawData.cpp MatrixTransform.cpp Node.cpp Sphere.cpp Texture.cpp UpdateData.cpp Vector3.cpp Vector4.cpp Window.cpp Globals.cpp MathTestBench.cpp OBJObject.cpp
+         OBJObject.cpp
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\objobject.cpp(72): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\objobject.cpp(243): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\objobject.cpp(260): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\objobject.cpp(265): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\objobject.cpp(271): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\objobject.cpp(282): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+         MathTestBench.cpp
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(107): warning C4305: 'initializing' : truncation from 'double' to 'const float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(228): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(231): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(242): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(245): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(287): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(324): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(532): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(549): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(566): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\mathtestbench.cpp(584): warning C4305: 'argument' : truncation from 'double' to 'float'
+         Globals.cpp
+         Window.cpp
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\window.cpp(436): warning C4060: switch statement contains no 'case' or 'default' labels
+         Vector4.cpp
+         Vector3.cpp
+         UpdateData.cpp
+         Texture.cpp
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\texture.cpp(89): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\texture.cpp(107): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(304) : see declaration of 'sscanf'
+         Sphere.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(376): error C2381: 'exit' : redefinition; __declspec(noreturn) differs
+                 c:\glut\glut-3.7.6-bin\gl\glut.h(146) : see declaration of 'exit'
+         Node.cpp
+         MatrixTransform.cpp
+         DrawData.cpp
+         Drawable.cpp
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\drawable.cpp(34): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\drawable.cpp(35): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         Matrix4.cpp
+         Material.cpp
+         Light.cpp
+         Color.cpp
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\color.cpp(60): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\color.cpp(64): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Camera.cpp
+         main.cpp
+         House.cpp
+         Generating Code...
+         Compiling...
+         Group.cpp
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\group.cpp(18): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aeriello\desktop\kevin\school\3rd year\fa15\cse 167\project 5 scene graph and culling\cse167-spring-2015-starter-code-master\group.cpp(25): warning C4018: '<' : signed/unsigned mismatch
+         Geode.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(376): error C2381: 'exit' : redefinition; __declspec(noreturn) differs
+                 c:\glut\glut-3.7.6-bin\gl\glut.h(146) : see declaration of 'exit'
+         Cube.cpp
+     1>c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(376): error C2381: 'exit' : redefinition; __declspec(noreturn) differs
+                 c:\glut\glut-3.7.6-bin\gl\glut.h(146) : see declaration of 'exit'
+         Generating Code...
+     1>Done Building Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Project 5 Scene Graph and Culling\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:09.02
