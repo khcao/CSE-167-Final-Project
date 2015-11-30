@@ -29,6 +29,7 @@ Group root;
 Sphere baseSphere;
 Cube baseCube;
 Player player1;
+Player player2;
 bool boundsOn = false;
 bool cullOn = true;
 float frustumFOVFactor = 1.0;
@@ -70,60 +71,41 @@ void Window::initialize(void)
 	Matrix4 trans;
 	//Begin by adding robot to our root
 	root.addChild(&player1);
-	
+	root.addChild(&player2);
+
+	// make player1 and player2 enemies
+	player1.enemy = &player2;
+	player2.enemy = &player1;
+
+	// make player1 face right
+	trans.makeRotateY(3.1415 / 2);
+	player1.robot.M = trans * player1.robot.M;
+	player1.faceDirection = trans * player1.faceDirection;
+	Vector4 forward = player1.faceDirection;
+	trans.makeTranslate(-2 * forward[0], -2 * forward[1], -2 * forward[2]);
+	player1.M = trans * player1.M;
+
+	// make player2 face left
+	trans.makeRotateY(-3.1415/2);
+	player2.robot.M = trans * player2.robot.M;
+	player2.faceDirection = trans * player2.faceDirection;
+	forward = player2.faceDirection;
+	trans.makeTranslate(-2 * forward[0], -2 * forward[1], -2 * forward[2]);
+	player2.M = trans * player2.M;
 }
 
 //----------------------------------------------------------------------------
 // Callback method called when system is idle.
 // This is called at the start of every new "frame" (qualitatively)
-int frequency = 0;
 void Window::idleCallback()
 {
     //Set up a static time delta for update calls
     Globals::updateData.dt = 1.0/60.0;// 60 fps
     
 	// rotate the arms and legs
-	//player1.robot.update();
 	// if we jump, update that
-	if (frequency == 0) {
-		player1.updateJump();
-		if (player1.kicking) {
-			player1.updateKick();
-		}
-		frequency++;
-	}
-	else if (frequency == 5) {
-		frequency = 0;
-	}
-	else {
-		frequency++;
-	}
-	Matrix4 trans;
-	if (player1.jumping) {
-		trans.makeRotateX(1.0472);
-		player1.leftLegRotate.M = trans;
-		player1.rightArmRotate.M = trans;
-
-		trans.makeRotateX(-1.0472);
-		player1.rightLegRotate.M = trans;
-		player1.leftArmRotate.M = trans;
-	}
-	else if (player1.kicking) {
-		trans.makeRotateX(-1.0472);
-		player1.leftLegRotate.M = trans;
-		player1.rightArmRotate.M = trans;
-
-		trans.makeRotateX(1.0472);
-		player1.rightLegRotate.M = trans;
-		player1.leftArmRotate.M = trans;
-	}
-	else {
-		trans.identity();
-		player1.leftLegRotate.M = trans;
-		player1.rightArmRotate.M = trans;
-		player1.rightLegRotate.M = trans;
-		player1.leftArmRotate.M = trans;
-	}
+	player1.update();
+	player2.update();
 	/*trans.makeRotateX(1.0472 * robot.pendulum);
 	leftLegRotate.M = trans;
 	rightArmRotate.M = trans;
@@ -133,7 +115,6 @@ void Window::idleCallback()
 	leftArmRotate.M = trans;*/
 
 	//trans.makeRotateY(0.0005);
-	//player1.M = trans * player1.M;
     //Call the display routine to draw the cube
     displayCallback();
 }
@@ -181,6 +162,7 @@ void Window::displayCallback()
     Globals::directionalLight.bind(0);
 	//Globals::pointLight.bind(1);
 	//Globals::spotLight.bind(2);
+
 	frame++;
 	int currFrameTime = glutGet(GLUT_ELAPSED_TIME);
 	if (currFrameTime - prevFrameTime > 1000.0) {
@@ -191,13 +173,14 @@ void Window::displayCallback()
 	}
     
 	player1.drawPlayer();
+	player2.drawPlayer();
 	
 	glBegin(GL_QUADS);
 	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(-20, 0, -20);
-	glVertex3f(-20, 0, 20);
-	glVertex3f(20, 0, 20);
-	glVertex3f(20, 0, -20);
+	glVertex3f(-100, 0, -100);
+	glVertex3f(-100, 0, 100);
+	glVertex3f(100, 0, 100);
+	glVertex3f(100, 0, -100);
 	glEnd();
 
 	//currDrawable->draw(Globals::drawData);
@@ -225,7 +208,6 @@ void Window::keyPress(unsigned char key, int x, int y) {
 	Vector4 d;
 	Vector3 d3;
 	Vector4 forward;
-	Vector4 position(0,0,0);
 
 	switch (key) {
 		case 'b':
@@ -234,6 +216,13 @@ void Window::keyPress(unsigned char key, int x, int y) {
 			}
 			else {
 				player1.boundsOn = true;
+			}
+
+			if (player2.boundsOn) {
+				player2.boundsOn = false;
+			}
+			else {
+				player2.boundsOn = true;
 			}
 			//std::cout << boundsOn << std::endl;
 			break;
@@ -304,6 +293,13 @@ void Window::keyPress(unsigned char key, int x, int y) {
 			else {
 				player1.cullOn = true;
 			}
+
+			if (player2.cullOn) {
+				player2.cullOn = false;
+			}
+			else {
+				player2.cullOn = true;
+			}
 			break;
 		case ' ':
 			if (!player1.jumping)
@@ -323,18 +319,42 @@ void Window::keyPress(unsigned char key, int x, int y) {
 			player1.M = trans * player1.M;
 			break;
 		case 'a':
-			position.set(0, 0, 0, 0);
-			position = player1.M * position;
 			trans.makeRotateY(0.2);
 			player1.robot.M = trans * player1.robot.M;
 			player1.faceDirection = trans * player1.faceDirection;
 			break;
 		case 'd':
-			position.set(0, 0, 0, 0);
-			position = player1.M * position;
 			trans.makeRotateY(-0.2);
 			player1.robot.M = trans * player1.robot.M;
 			player1.faceDirection = trans * player1.faceDirection;
+			break;
+
+		case '0':
+			if (!player2.jumping)
+				player2.initiateJump();
+			else
+				player2.initiateKick();
+
+			break;
+		case '8':
+			forward = player2.faceDirection;
+			trans.makeTranslate(0.5 * forward[0], 0.5 * forward[1], 0.5 * forward[2]);
+			player2.M = trans * player2.M;
+			break;
+		case '5':
+			forward = player2.faceDirection;
+			trans.makeTranslate(-0.5 * forward[0], -0.5 * forward[1], -0.5 * forward[2]);
+			player2.M = trans * player2.M;
+			break;
+		case '4':
+			trans.makeRotateY(0.2);
+			player2.robot.M = trans * player2.robot.M;
+			player2.faceDirection = trans * player2.faceDirection;
+			break;
+		case '6':
+			trans.makeRotateY(-0.2);
+			player2.robot.M = trans * player2.robot.M;
+			player2.faceDirection = trans * player2.faceDirection;
 			break;
 	}
 }

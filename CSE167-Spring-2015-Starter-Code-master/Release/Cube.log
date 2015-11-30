@@ -1,20 +1,23 @@
-﻿Build started 11/26/2015 5:45:50 PM.
-     1>Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" on node 2 (Build target(s)).
+﻿Build started 11/30/2015 3:37:53 PM.
+     1>Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (Cube.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Player.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Cube.cpp Geode.cpp Globals.cpp Group.cpp Light.cpp MatrixTransform.cpp Node.cpp Player.cpp Sphere.cpp Window.cpp main.cpp
+         Cube.cpp
+         Geode.cpp
+         Globals.cpp
+         Group.cpp
+     1>Group.cpp(20): warning C4018: '<' : signed/unsigned mismatch
+     1>Group.cpp(27): warning C4018: '<' : signed/unsigned mismatch
+     1>Group.cpp(34): warning C4018: '<' : signed/unsigned mismatch
+         Light.cpp
+         MatrixTransform.cpp
+         Node.cpp
          Player.cpp
-     1>Player.cpp(17): warning C4305: '=' : truncation from 'double' to 'float'
-     1>Player.cpp(29): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(39): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(41): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(43): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(45): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(187): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(189): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(221): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Player.cpp(221): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Player.cpp(242): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Sphere.cpp
+         Window.cpp
+         main.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release\Your Waifu Is Trash.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\glut\glut-3.7.6-bin" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Release\Your Waifu Is Trash.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release\Your Waifu Is Trash.lib" /MACHINE:X86 /SAFESEH Release\Cube.obj
          Release\Geode.obj
@@ -41,9 +44,9 @@
          Release\MathTestBench.obj
          Release\OBJObject.obj
      1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
-         Cube.vcxproj -> C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE167-Spring-2015-Starter-Code-master\Release\Your Waifu Is Trash.exe
-     1>Done Building Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" (Build target(s)).
+         Cube.vcxproj -> C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Release\Your Waifu Is Trash.exe
+     1>Done Building Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.25
+Time Elapsed 00:00:09.11

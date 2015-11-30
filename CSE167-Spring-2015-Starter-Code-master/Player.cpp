@@ -1,7 +1,13 @@
 #include "Player.h"
 #include "Globals.h"
 
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
 
+int Player::playerCount = 0;
 Vector4 noWhere(0, 0, 0, 0);
 // Makes a player centered at x = 0, z = 0, on floor y = 0
 Player::Player()
@@ -113,7 +119,8 @@ Player::Player()
 
 
 	//Set the color of our Geodes
-	srand(12567);
+	int time = glutGet(GLUT_ELAPSED_TIME);
+	srand(time);
 	float red, green, blue;
 	red = (static_cast<float>(rand())) / ((RAND_MAX));
 	green = (static_cast<float>(rand())) / ((RAND_MAX));
@@ -134,6 +141,10 @@ Player::Player()
 	kicking = false;
 	Vector4 faceDir(0, 0, 1);
 	faceDirection = faceDir;
+	frequency = 0;
+	rekt = false;
+	Player::playerCount++;
+	playerID = Player::playerCount;
 }
 
 
@@ -190,7 +201,7 @@ void Player::initiateJump() {
 		acceleration = accVec;
 		jumping = true;
 		updateJump();
-		std::cout << "start" << std::endl;
+		//std::cout << "start" << std::endl;
 	}
 	return;
 }
@@ -198,19 +209,19 @@ void Player::initiateJump() {
 void Player::updateJump() {
 	Matrix4 trans;
 	if (this->M.get(3, 1) < 0) {
-		velocity = noWhere;
 		acceleration = noWhere;
+		velocity = noWhere;
 		trans.makeTranslate(0, -1 * this->M.get(3, 1), 0);
 		this->M = trans * this->M;
 		jumping = false;
 		kicking = false;
-		std::cout << "stop jump" << std::endl;
+		//std::cout << "stop jump" << std::endl;
 	}
 	if(jumping && !kicking) {
 		trans.makeTranslate(velocity[0], velocity[1], velocity[2]);
 		this->M = trans * this->M;
 		velocity = velocity.add(acceleration);
-		std::cout << "jumping" << std::endl;
+		//std::cout << "jumping" << std::endl;
 	}
 }
 
@@ -221,7 +232,7 @@ void Player::initiateKick() {
 		Vector4 velVec(0.1*faceDirection[0], -0.1, 0.1*faceDirection[2]);
 		velocity = velVec;
 		updateKick();
-		std::cout << "start kick" << std::endl;
+		//std::cout << "start kick" << std::endl;
 	}
 	return;
 }
@@ -235,17 +246,17 @@ void Player::updateKick() {
 		this->M = trans * this->M;
 		jumping = false;
 		kicking = false;
-		std::cout << "stop kick" << std::endl;
+		//std::cout << "stop kick" << std::endl;
 	}
 	if (kicking) {
-		if (this->M.get(3, 1) < 0.3) {
-			trans.makeTranslate(velocity[0] / 15.0, velocity[1] / 15.0, velocity[2] / 15.0);
+		if (this->M.get(3, 1) < 0.15) {
+			trans.makeTranslate(velocity[0] / 10.0, velocity[1] / 10.0, velocity[2] / 10.0);
 		}
 		else {
-			trans.makeTranslate(velocity[0], velocity[1], velocity[2]);
+			trans.makeTranslate(velocity[0] / 5.0, velocity[1] / 5.0, velocity[2] * 5.0);
 		}
 		this->M = trans * this->M;
-		std::cout << "kicking" << std::endl;
+		//std::cout << "kicking" << std::endl;
 		if (this->M.get(3, 1) < 0) {
 			velocity = noWhere;
 			acceleration = noWhere;
@@ -253,7 +264,84 @@ void Player::updateKick() {
 			this->M = trans * this->M;
 			jumping = false;
 			kicking = false;
-			std::cout << "stop kick" << std::endl;
+			enemy->rekt = false;
+			//std::cout << "stop kick" << std::endl;
+			return;
 		}
+
+		// check if you have kicked an enemy
+		if (enemy != NULL && !enemy->kicking) {
+			// find the enemy's body's center coordinates
+			Vector4 enemyPos(enemy->fullBody.newCenter[0], 
+				enemy->fullBody.newCenter[1], 
+				enemy->fullBody.newCenter[2], 
+				0);
+			// find our left (kicking) leg's center coordinates
+			Vector4 myPos(leftLegScale.newCenter[0],
+				leftLegScale.newCenter[1],
+				leftLegScale.newCenter[2],
+				0);
+			// find the vector from ourLeg to the enemy body
+			Vector4 meToEnemy = enemyPos - myPos;
+			
+			// see if that vector's magnitude is less than the radius of enemy body and our leg combined
+			if (meToEnemy.toVector3().magnitude() < enemy->fullBody.radius + leftLegScale.radius) {
+				enemy->velocity.set(-1 * faceDirection[0], -1, -1 * faceDirection[2], 0);
+				if (enemy->rekt == false) {
+					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				}
+				enemy->rekt = true;
+				enemy->fullBody.collided = true;
+				leftLegScale.collided = true;
+			}
+			else {
+				enemy->rekt = false;
+				enemy->fullBody.collided = false;
+				leftLegScale.collided = false;
+			}
+		} // end collision check
+	} // end if(kicking)
+}
+
+
+void Player::update() {
+	if (frequency == 0) {
+		updateJump();
+		if (kicking) {
+			updateKick();
+		}
+		frequency++;
+	}
+	else if (frequency == 5) {
+		frequency = 0;
+	}
+	else {
+		frequency++;
+	}
+	Matrix4 trans;
+	if (jumping) {
+		trans.makeRotateX(1.0472);
+		leftLegRotate.M = trans;
+		rightArmRotate.M = trans;
+
+		trans.makeRotateX(-1.0472);
+		rightLegRotate.M = trans;
+		leftArmRotate.M = trans;
+	}
+	else if (kicking) {
+		trans.makeRotateX(-1.0472);
+		leftLegRotate.M = trans;
+		rightArmRotate.M = trans;
+
+		trans.makeRotateX(1.0472);
+		rightLegRotate.M = trans;
+		leftArmRotate.M = trans;
+	}
+	else {
+		trans.identity();
+		leftLegRotate.M = trans;
+		rightArmRotate.M = trans;
+		rightLegRotate.M = trans;
+		leftArmRotate.M = trans;
 	}
 }

@@ -67,8 +67,14 @@ void MatrixTransform::drawWireSphere() {
 	glPushMatrix();
 	glMultMatrixf(trans.ptr());
 
+
 	Color color;
-	color = color.green();
+	if (collided) {
+		color = color.red();
+	}
+	else {
+		color = color.green();
+	}
 	glColor3fv(color.ptr());
 	glutWireSphere(radius, 10, 10);
 

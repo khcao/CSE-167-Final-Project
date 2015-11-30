@@ -21,22 +21,30 @@ public:
 	Sphere baseSphere;
 	Cube baseCube;
 
-	bool boundsOn;
-	bool cullOn;
-	Vector4 velocity;
-	Vector4 acceleration;
-	bool jumping;
-	bool kicking;
-	Vector4 faceDirection;
+	bool boundsOn; // boolean to draw bounding boxes
+	bool cullOn; // boolean to allow culling of the player
+	Vector4 velocity; // the velocity of the player - determines the next position (in relation to the current position) in the next frame
+	Vector4 acceleration; // the acceleration of the player - determines the next velocity in the next frame
+	bool jumping; // indicates whether in a jumping sequence
+	bool kicking; // indicates whether in a kicking sequence
+	Vector4 faceDirection; // determines the facing direction of the character - should be normalized (since only direction is changed)
+	int frequency; // used for updates on the player
+	Player * enemy; // holds a pointer to the opposite player
+	bool rekt; // indicates whether the player has been divekicked (receiver of the kick) or not
+
+	static int playerCount;
+	int playerID;
+	
 
 	Player();
 	~Player();
 
-	void drawPlayer(void);
-	void initiateJump(void);
-	void updateJump(void);
-	void initiateKick(void);
-	void updateKick(void);
+	void drawPlayer(void); // correctly draws the player - call this instead of draw(M);
+	void initiateJump(void); // used to initiate a jump sequence
+	void updateJump(void); // used to update the player during jump sequence
+	void initiateKick(void); // used to initiate a kick, should be during jumping
+	void updateKick(void); // used to update the player during kick sequence
+	void update(void); // updates variables - use this in idlecallback
 };
 
 #endif

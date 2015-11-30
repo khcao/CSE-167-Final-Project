@@ -3,6 +3,7 @@
 
 Group::Group()
 {
+	collided = false;
 }
 
 

@@ -10,6 +10,7 @@ public:
 	Vector3 center;
 	float radius;
 	Vector3 newCenter;
+	bool collided;
 
 	Node();
 	~Node();
