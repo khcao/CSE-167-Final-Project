@@ -177,10 +177,10 @@ void Window::displayCallback()
 	
 	glBegin(GL_QUADS);
 	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(-100, 0, -100);
-	glVertex3f(-100, 0, 100);
-	glVertex3f(100, 0, 100);
-	glVertex3f(100, 0, -100);
+	glVertex3f(-20, 0, -20);
+	glVertex3f(-20, 0, 20);
+	glVertex3f(20, 0, 20);
+	glVertex3f(20, 0, -20);
 	glEnd();
 
 	//currDrawable->draw(Globals::drawData);

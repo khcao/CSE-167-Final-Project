@@ -31,3 +31,7 @@ void Sphere::render() {
 	glColor3fv(this->color.ptr());
 	glutSolidSphere(1.0, 80, 80);
 }
+
+void Sphere::simDraw(Matrix4 C) {
+
+}

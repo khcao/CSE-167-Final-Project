@@ -18,6 +18,7 @@ public:
 	void draw(Matrix4);
 	void update();
 	void drawWireSphere();
+	void drawWireCube();
 
 	void simDraw(Matrix4);
 };

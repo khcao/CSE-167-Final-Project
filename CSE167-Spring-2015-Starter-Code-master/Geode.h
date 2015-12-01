@@ -2,11 +2,13 @@
 #define CSE167_Geode_h
 
 #include "Node.h"
+#include "Vector4.h"
 #include "Color.h"
 class Geode : public Node
 {
 public:
 	Color color;
+	float maxX, maxY, maxZ, minX, minY, minZ;
 
 	Geode();
 	~Geode();

@@ -253,7 +253,7 @@ void Player::updateKick() {
 			trans.makeTranslate(velocity[0] / 10.0, velocity[1] / 10.0, velocity[2] / 10.0);
 		}
 		else {
-			trans.makeTranslate(velocity[0] / 5.0, velocity[1] / 5.0, velocity[2] * 5.0);
+			trans.makeTranslate(velocity[0] * 2.0, velocity[1] * 2.0, velocity[2] * 2.0);
 		}
 		this->M = trans * this->M;
 		//std::cout << "kicking" << std::endl;
@@ -265,6 +265,8 @@ void Player::updateKick() {
 			jumping = false;
 			kicking = false;
 			enemy->rekt = false;
+			enemy->fullBody.collided = false;
+			leftLegScale.collided = false;
 			//std::cout << "stop kick" << std::endl;
 			return;
 		}

@@ -5,10 +5,13 @@
 class Cube : public Geode
 {
 public:
+	Vector4 tLB, tLF, tRB, tRF, bLB, bLF, bRB, bRF;
+
 	Cube();
 	~Cube();
 
 	void render(void);
+	void simDraw(Matrix4);
 };
 
 #endif
