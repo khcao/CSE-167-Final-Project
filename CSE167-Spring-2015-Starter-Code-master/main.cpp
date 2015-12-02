@@ -5,7 +5,7 @@
 #ifdef __APPLE__
     #include <GLUT/freeglut.h>
 #else
-    #include <GL/freeglut.h>
+    #include <GL/glut.h>
 #endif
 
 #include "Window.h"

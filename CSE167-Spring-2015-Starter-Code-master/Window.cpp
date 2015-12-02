@@ -15,7 +15,7 @@
 #include "Group.h"
 #include "Player.h"
 #include <algorithm>
-
+#include "City.h"
 int Window::width  = 512;   //Set window width in pixels here
 int Window::height = 512;   //Set window height in pixels here
 
@@ -33,6 +33,27 @@ Player player2;
 bool boundsOn = false;
 bool cullOn = true;
 float frustumFOVFactor = 1.0;
+
+GLuint cut;
+GLuint GenerateCity()
+{
+	GLuint list = glGenLists(1);
+
+	// Optimize list
+	glNewList(list, GL_COMPILE);
+
+	glEnable(GL_COLOR_MATERIAL);
+
+	City city;
+	city.Generate();
+
+	// Fin de la liste
+	glEndList();
+
+	return list;
+}
+
+
 
 void Window::initialize(void)
 {
@@ -92,6 +113,9 @@ void Window::initialize(void)
 	forward = player2.faceDirection;
 	trans.makeTranslate(-2 * forward[0], -2 * forward[1], -2 * forward[2]);
 	player2.M = trans * player2.M;
+
+
+	cut = GenerateCity();
 }
 
 //----------------------------------------------------------------------------
@@ -171,7 +195,16 @@ void Window::displayCallback()
 		frame = 0;
 		//std::cout << "FPS: " << fps << " frames per second." << std::endl;
 	}
-    
+
+	glPushMatrix();
+	Matrix4 m(1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	glLoadMatrixf(m.ptr());
+
+	glCallList(cut);
+	glPopMatrix();
 	player1.drawPlayer();
 	player2.drawPlayer();
 	
