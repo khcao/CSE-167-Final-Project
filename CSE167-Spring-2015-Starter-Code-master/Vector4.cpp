@@ -104,4 +104,17 @@ void Vector4::print(std::string comment)
 {
     std::cout << comment << std::endl;
     std::cout << "<x:" << m[0] <<  ", y:" << m[1] << ", z:" << m[2] << ", w:" << m[3] << ">" << std::endl;
+}void Vector4::normalize()
+{
+	scale((1.0f) / magnitude());
+}float Vector4::magnitude()
+{
+	return sqrt(m[0] * m[0] + m[1] * m[1] + m[2] * m[2] + m[3] * m[3]);
+}
+void Vector4::scale(float s)
+{
+	m[0] *= s;
+	m[1] *= s;
+	m[2] *= s;
+	m[3] *= s;
 }

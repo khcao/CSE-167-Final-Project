@@ -38,7 +38,10 @@ public:
     float dot(Vector4);
     
     void print(std::string);
-    
+	void normalize();
+	float magnitude();
+
+	void scale(float s);
 };
 
 #endif

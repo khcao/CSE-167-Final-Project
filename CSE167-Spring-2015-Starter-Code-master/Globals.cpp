@@ -13,3 +13,7 @@ UpdateData Globals::updateData;
 //OBJObject Globals::bunny("bunny.obj");
 //OBJObject Globals::dragon("dragon.obj");
 //OBJObject Globals::bear("bear.obj");
+
+
+Vector4 Globals::pl[6];
+Matrix4 Globals::perspectiveMatrix;

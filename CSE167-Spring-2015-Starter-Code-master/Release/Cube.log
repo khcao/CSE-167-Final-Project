@@ -1,9 +1,29 @@
-﻿Build started 12/1/2015 2:29:33 PM.
+﻿Build started 12/1/2015 7:39:47 PM.
      1>Project "C:\Users\CYV\Documents\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (Cube.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Window.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt BaseBuilding.cpp Building.cpp BuildingBlock.cpp City.cpp Cube.cpp FloorWindow.cpp Geode.cpp GiantBuilding.cpp Globals.cpp Light.cpp Maison.cpp MaisonClassique.cpp MatrixTransform.cpp MetroBlock.cpp Player.cpp SmallBuilding.cpp Sphere.cpp Window.cpp main.cpp mobilierUrbain.cpp
+         BaseBuilding.cpp
+         Building.cpp
+         BuildingBlock.cpp
+         City.cpp
+         Cube.cpp
+         FloorWindow.cpp
+         Geode.cpp
+         GiantBuilding.cpp
+         Globals.cpp
+         Light.cpp
+         Maison.cpp
+         MaisonClassique.cpp
+         MatrixTransform.cpp
+         MetroBlock.cpp
+         Player.cpp
+         SmallBuilding.cpp
+         Sphere.cpp
          Window.cpp
+         main.cpp
+         mobilierUrbain.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release\Your Waifu Is Trash.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\glut\glut-3.7.6-bin" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"Release\Your Waifu Is Trash.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release\Your Waifu Is Trash.lib" /MACHINE:X86 /SAFESEH Release\BaseBuilding.obj
          Release\Building.obj
@@ -49,4 +69,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.78
+Time Elapsed 00:00:08.87

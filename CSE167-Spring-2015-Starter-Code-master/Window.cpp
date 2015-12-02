@@ -16,6 +16,8 @@
 #include "Player.h"
 #include <algorithm>
 #include "City.h"
+#include <algorithm> 
+#include <ctime>
 int Window::width  = 512;   //Set window width in pixels here
 int Window::height = 512;   //Set window height in pixels here
 
@@ -35,6 +37,7 @@ bool cullOn = true;
 float frustumFOVFactor = 1.0;
 
 GLuint cut;
+
 GLuint GenerateCity()
 {
 	GLuint list = glGenLists(1);
@@ -123,6 +126,10 @@ void Window::initialize(void)
 // This is called at the start of every new "frame" (qualitatively)
 void Window::idleCallback()
 {
+	clock_t start;
+	double duration;
+	start = clock();
+	
     //Set up a static time delta for update calls
     Globals::updateData.dt = 1.0/60.0;// 60 fps
     
@@ -141,6 +148,10 @@ void Window::idleCallback()
 	//trans.makeRotateY(0.0005);
     //Call the display routine to draw the cube
     displayCallback();
+
+	duration = (clock() - start) / (double)CLOCKS_PER_SEC;
+	//std::cout << "FPS: " << 1 / duration << endl;
+	std::cout << "FPS: " << 1 / duration << std::endl;
 }
 
 //----------------------------------------------------------------------------
@@ -175,7 +186,8 @@ void Window::displayCallback()
     //This will save a copy of the current matrix so that we can
     //make changes to it and 'pop' those changes off later.
     glPushMatrix();
-    
+
+
     //Replace the current top of the matrix stack with the inverse camera matrix
     //This will convert all world coordiantes into camera coordiantes
     glLoadMatrixf(Globals::camera.getInverseMatrix().ptr());
@@ -196,24 +208,17 @@ void Window::displayCallback()
 		//std::cout << "FPS: " << fps << " frames per second." << std::endl;
 	}
 
-	glPushMatrix();
+	player1.drawPlayer();
+	player2.drawPlayer();
+	
 	Matrix4 m(1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
-	glLoadMatrixf(m.ptr());
-
+	glLoadMatrixf(Globals::camera.getInverseMatrix().multiply(m).ptr());
+	glDisable(GL_LIGHTING);
 	glCallList(cut);
-	glPopMatrix();
-	player1.drawPlayer();
-	player2.drawPlayer();
-	
-	glBegin(GL_QUADS);
-	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(-20, 0, -20);
-	glVertex3f(-20, 0, 20);
-	glVertex3f(20, 0, 20);
-	glVertex3f(20, 0, -20);
+	glEnable(GL_LIGHTING);
 	glEnd();
 
 	//currDrawable->draw(Globals::drawData);

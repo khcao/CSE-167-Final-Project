@@ -11,7 +11,7 @@
 #include "mobilierUrbain.h"
 
 #include "BuildingBlock.h"
-
+#include "Globals.h"
 
 #define UNIT 1/4 //soit 1 m?tre, on pourra la modifier plus tard
 
@@ -71,6 +71,7 @@ class City {
 public:
 	City();
 	void Generate();
+	static bool shouldCull(Vector4);
 };
 
 

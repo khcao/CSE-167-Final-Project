@@ -29,6 +29,8 @@ public:
 	static Light directionalLight;
 	static Light pointLight;
 	static Light spotLight;
+	static Vector4 pl[6];
+	static Matrix4 perspectiveMatrix;
 };
 
 #endif

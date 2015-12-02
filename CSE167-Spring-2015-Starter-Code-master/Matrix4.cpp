@@ -22,6 +22,12 @@ Matrix4::Matrix4(
               m20, m21, m22, m23,
               m30, m31, m32, m33);
 }
+void Matrix4::set(Matrix4 p)
+{
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			m[i][j] = p.m[i][j];
+}
 
 void Matrix4::set(float m00, float m01, float m02, float m03,
                   float m10, float m11, float m12, float m13,

@@ -17,10 +17,6 @@ public:
 	static void keyPress(unsigned char, int, int);
 	static void fKeyPress(int, int, int);
 	//static void centerAndScale(Drawable *);
-	static void mousePress(int, int, int, int);
-	static void mouseMotion(int, int);
-	static void mouseWheeling(int, int, int, int);
-	static Vector3 calcTrackBallCoord(int, int, int, int);
 };
 
 #endif

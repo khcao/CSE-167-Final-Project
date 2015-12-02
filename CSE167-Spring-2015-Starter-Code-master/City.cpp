@@ -30,7 +30,38 @@ LandQuad::LandQuad(const Vector& _a, const Vector& _b, const Vector& _c, const V
 
 void LandQuad::createBuildingBlock()
 {
+	int counter = 0;
+	for (int i = 0; i < 4; i++){
+		Camera cam = Globals::camera;
+		Vector3 topLeftFrontPoint = cam.nearPlane[0];
+		Vector3 botRightBackPoint = cam.farPlane[3];
+		float  p1[16];
+		glGetFloatv(GL_PROJECTION_MATRIX, p1);
+		Matrix4 perspectiveMatrix = Matrix4(p1[0], p1[1], p1[2], p1[3], 
+			p1[4], p1[5], p1[6], p1[7], p1[8], p1[9], p1[10], p1[11], p1[12], p1[13], p1[14], p1[15]);
 
+		Vector4 centerOfItem(p[i][0], p[i][1], p[i][2],1);
+
+		Vector4 transformedCenter = cam.getInverseMatrix() * centerOfItem;
+	
+		float distTop = transformedCenter.dot(cam.normTop.toVector4(1));
+		float distLeft = transformedCenter.dot(cam.normLeft.toVector4(1));
+		float distFront = transformedCenter.dot(cam.normFront.toVector4(1));
+		float distBot = transformedCenter.dot(cam.normBot.toVector4(1));
+		float distRight = transformedCenter.dot(cam.normRight.toVector4(1));
+		float distBack = transformedCenter.dot(cam.normBack.toVector4(1));
+
+		if ( distLeft < 5 && distRight <  5 && distFront < 0) {
+			//we're good
+			break;
+		}
+		else {
+			counter++;
+		}
+	
+	}
+	if (counter == 4)
+		return;
 	//shrink to give space to the road
 	Vector::setCol(COL_ROUTE1, COL_ROUTE2, COL_ROUTE3);
 	PrismQuad(Quadrangle(p[0], p[1], p[2], p[3]), 0.10*UNIT).Render();
@@ -47,9 +78,10 @@ void LandQuad::createBuildingBlock()
 
 	BlockQuad(q.getVectors(0), q.getVectors(1), q.getVectors(2), q.getVectors(3), centres);
 }
+
 bool LandQuad::is_point_in_rectangle( Vector& p) {
 	//smallest , //biggest
-	float val = 2;
+	float val =3;
 	float min = -10 * val;
 
 	float max = 10 * val;

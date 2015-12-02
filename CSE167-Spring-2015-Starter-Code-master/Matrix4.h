@@ -18,7 +18,8 @@ protected:
     float m[4][4];
     
 public:
-    
+
+	void set(Matrix4 p);
     Matrix4();
     Matrix4(float, float, float, float, float, float, float, float, float, float, float, float, float, float, float, float);
     
