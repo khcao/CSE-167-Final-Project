@@ -9,6 +9,16 @@
 class Player :
 	public MatrixTransform
 {
+protected:
+	void checkCollisionAlpha();
+	void checkCollisionBeta();
+	void checkHeadCollision();
+	void checkTorsoCollision();
+	void checkLeftArmCollision();
+	void checkRightArmCollision();
+	void checkLeftLegCollision();
+	void checkRightLegCollision();
+	void clearCollided();
 public:
 	MatrixTransform robot, fullBody;
 	MatrixTransform torsoScale, torsoTranslate;

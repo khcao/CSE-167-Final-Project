@@ -5,7 +5,6 @@
 class Sphere : public Geode
 {
 public:
-	Vector4 tLB, tLF, tRB, tRF, bLB, bLF, bRB, bRF;
 
 	Sphere();
 	~Sphere();

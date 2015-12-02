@@ -158,13 +158,13 @@ void Player::drawPlayer() {
 
 	this->simDraw(this->M);
 	if (boundsOn) {
-		leftLegScale.drawWireSphere();
-		rightLegScale.drawWireSphere();
-		leftArmScale.drawWireSphere();
-		rightArmScale.drawWireSphere();
-		headScale.drawWireSphere();
-		torsoScale.drawWireSphere();
-		fullBody.drawWireSphere();
+		leftLegScale.drawWireCubeFromCube();
+		rightLegScale.drawWireCubeFromCube();
+		leftArmScale.drawWireCubeFromCube();
+		rightArmScale.drawWireCubeFromCube();
+		headScale.drawWireCubeFromSphere();
+		torsoScale.drawWireCubeFromCube();
+		//fullBody.drawWireSphere();
 	}
 	if (cullOn) {
 		Camera cam = Globals::camera;
@@ -264,44 +264,12 @@ void Player::updateKick() {
 			this->M = trans * this->M;
 			jumping = false;
 			kicking = false;
-			enemy->rekt = false;
-			enemy->fullBody.collided = false;
-			leftLegScale.collided = false;
+			clearCollided();
 			//std::cout << "stop kick" << std::endl;
 			return;
 		}
 
-		// check if you have kicked an enemy
-		if (enemy != NULL && !enemy->kicking) {
-			// find the enemy's body's center coordinates
-			Vector4 enemyPos(enemy->fullBody.newCenter[0], 
-				enemy->fullBody.newCenter[1], 
-				enemy->fullBody.newCenter[2], 
-				0);
-			// find our left (kicking) leg's center coordinates
-			Vector4 myPos(leftLegScale.newCenter[0],
-				leftLegScale.newCenter[1],
-				leftLegScale.newCenter[2],
-				0);
-			// find the vector from ourLeg to the enemy body
-			Vector4 meToEnemy = enemyPos - myPos;
-			
-			// see if that vector's magnitude is less than the radius of enemy body and our leg combined
-			if (meToEnemy.toVector3().magnitude() < enemy->fullBody.radius + leftLegScale.radius) {
-				enemy->velocity.set(-1 * faceDirection[0], -1, -1 * faceDirection[2], 0);
-				if (enemy->rekt == false) {
-					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
-				}
-				enemy->rekt = true;
-				enemy->fullBody.collided = true;
-				leftLegScale.collided = true;
-			}
-			else {
-				enemy->rekt = false;
-				enemy->fullBody.collided = false;
-				leftLegScale.collided = false;
-			}
-		} // end collision check
+		checkCollisionBeta();
 	} // end if(kicking)
 }
 
@@ -346,4 +314,264 @@ void Player::update() {
 		rightLegRotate.M = trans;
 		leftArmRotate.M = trans;
 	}
+}
+
+void Player::checkCollisionAlpha() {
+	// check if you have kicked an enemy
+	if (enemy != NULL && !enemy->kicking) {
+		// find the enemy's body's center coordinates
+		Vector4 enemyPos(enemy->fullBody.newCenter[0],
+			enemy->fullBody.newCenter[1],
+			enemy->fullBody.newCenter[2],
+			0);
+		// find our left (kicking) leg's center coordinates
+		Vector4 myPos(leftLegScale.newCenter[0],
+			leftLegScale.newCenter[1],
+			leftLegScale.newCenter[2],
+			0);
+		// find the vector from ourLeg to the enemy body
+		Vector4 meToEnemy = enemyPos - myPos;
+
+		// see if that vector's magnitude is less than the radius of enemy body and our leg combined
+		if (meToEnemy.toVector3().magnitude() < enemy->fullBody.radius + leftLegScale.radius) {
+			enemy->velocity.set(-1 * faceDirection[0], -1, -1 * faceDirection[2], 0);
+			if (enemy->rekt == false) {
+				std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+			}
+			enemy->rekt = true;
+			enemy->fullBody.collided = true;
+			leftLegScale.collided = true;
+		}
+		else {
+			clearCollided();
+		}
+	} // end collision check
+}
+
+void Player::checkCollisionBeta() {
+	// check if you have kicked an enemy
+	if (enemy != NULL && !enemy->kicking) {
+		// find the enemy's body's center coordinates
+		Vector4 enemyPos(enemy->fullBody.newCenter[0],
+			enemy->fullBody.newCenter[1],
+			enemy->fullBody.newCenter[2],
+			0);
+		// find our left (kicking) leg's center coordinates
+		Vector4 myPos(leftLegScale.newCenter[0],
+			leftLegScale.newCenter[1],
+			leftLegScale.newCenter[2],
+			0);
+		// find the vector from ourLeg to the enemy body
+		Vector4 meToEnemy = enemyPos - myPos;
+		// see if that vector's magnitude is less than the radius of enemy body and our leg combined
+		if (meToEnemy.toVector3().magnitude() < enemy->fullBody.radius + leftLegScale.radius) {
+			/* if we have entered here, our kick has reached our enemy's personal space. check which body part we have hit */
+			//// head ////
+			// check if our kicking leg's minX or maxX are between the minX/maxX of enemy's head
+			checkHeadCollision();
+			checkTorsoCollision();
+			checkLeftArmCollision();
+			checkRightArmCollision();
+			checkLeftLegCollision();
+			checkRightLegCollision();
+
+			enemy->velocity.set(-1 * faceDirection[0], -1, -1 * faceDirection[2], 0);
+			enemy->fullBody.collided = true;
+		}
+		else {
+			clearCollided();
+		}
+	}
+}
+
+void Player::clearCollided() {
+	leftLegScale.collided = false;
+	enemy->rekt = false;
+	enemy->fullBody.collided = false;
+	enemy->headScale.collided = false;
+	enemy->torsoScale.collided = false;
+	enemy->leftArmScale.collided = false;
+	enemy->rightArmScale.collided = false;
+	enemy->leftLegScale.collided = false;
+	enemy->rightLegScale.collided = false;
+}
+
+void Player::checkHeadCollision() {
+	if ((leftLegScale.minX > enemy->headScale.minX && leftLegScale.minX < enemy->headScale.maxX) ||
+		(leftLegScale.maxX > enemy->headScale.minX && leftLegScale.maxX < enemy->headScale.maxX)) {
+		// if so, check for the minY and maxY
+		if ((leftLegScale.minY > enemy->headScale.minY && leftLegScale.minY < enemy->headScale.maxY) ||
+			(leftLegScale.maxY > enemy->headScale.minY && leftLegScale.maxY < enemy->headScale.maxY)) {
+			// finally, check that some z of our leg is between the minZ/maxZ of the enemy's head
+			if ((leftLegScale.minZ > enemy->headScale.minZ && leftLegScale.minZ < enemy->headScale.maxZ) ||
+				(leftLegScale.maxZ > enemy->headScale.minZ && leftLegScale.maxZ < enemy->headScale.maxZ)) {
+				// if so, we have collided with the head
+				enemy->headScale.collided = true;
+				if (enemy->rekt == false) {
+					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				}
+				enemy->rekt = true;
+				leftLegScale.collided = true;
+			}
+			else {
+				enemy->headScale.collided = false;
+			} // end Z check
+		}
+		else {
+			enemy->headScale.collided = false;
+		} // end Y check
+	}
+	else {
+		enemy->headScale.collided = false;
+	} // end X check
+}
+
+void Player::checkTorsoCollision() {
+	if ((leftLegScale.minX > enemy->torsoScale.minX && leftLegScale.minX < enemy->torsoScale.maxX) ||
+		(leftLegScale.maxX > enemy->torsoScale.minX && leftLegScale.maxX < enemy->torsoScale.maxX)) {
+		// if so, check for the minY and maxY
+		if ((leftLegScale.minY > enemy->torsoScale.minY && leftLegScale.minY < enemy->torsoScale.maxY) ||
+			(leftLegScale.maxY > enemy->torsoScale.minY && leftLegScale.maxY < enemy->torsoScale.maxY)) {
+			// finally, check that some z of our leg is between the minZ/maxZ of the enemy's head
+			if ((leftLegScale.minZ > enemy->torsoScale.minZ && leftLegScale.minZ < enemy->torsoScale.maxZ) ||
+				(leftLegScale.maxZ > enemy->torsoScale.minZ && leftLegScale.maxZ < enemy->torsoScale.maxZ)) {
+				// if so, we have collided with the head
+				enemy->torsoScale.collided = true;
+				if (enemy->rekt == false) {
+					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				}
+				enemy->rekt = true;
+				leftLegScale.collided = true;
+			}
+			else {
+				enemy->torsoScale.collided = false;
+			} // end Z check
+		}
+		else {
+			enemy->torsoScale.collided = false;
+		} // end Y check
+	}
+	else {
+		enemy->torsoScale.collided = false;
+	} // end X check
+}
+
+void Player::checkLeftArmCollision() {
+	if ((leftLegScale.minX > enemy->leftArmScale.minX && leftLegScale.minX < enemy->leftArmScale.maxX) ||
+		(leftLegScale.maxX > enemy->leftArmScale.minX && leftLegScale.maxX < enemy->leftArmScale.maxX)) {
+		// if so, check for the minY and maxY
+		if ((leftLegScale.minY > enemy->leftArmScale.minY && leftLegScale.minY < enemy->leftArmScale.maxY) ||
+			(leftLegScale.maxY > enemy->leftArmScale.minY && leftLegScale.maxY < enemy->leftArmScale.maxY)) {
+			// finally, check that some z of our leg is between the minZ/maxZ of the enemy's head
+			if ((leftLegScale.minZ > enemy->leftArmScale.minZ && leftLegScale.minZ < enemy->leftArmScale.maxZ) ||
+				(leftLegScale.maxZ > enemy->leftArmScale.minZ && leftLegScale.maxZ < enemy->leftArmScale.maxZ)) {
+				// if so, we have collided with the head
+				enemy->leftArmScale.collided = true;
+				if (enemy->rekt == false) {
+					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				}
+				enemy->rekt = true;
+				leftLegScale.collided = true;
+			}
+			else {
+				enemy->leftArmScale.collided = false;
+			} // end Z check
+		}
+		else {
+			enemy->leftArmScale.collided = false;
+		} // end Y check
+	}
+	else {
+		enemy->leftArmScale.collided = false;
+	} // end X check
+}
+
+void Player::checkRightArmCollision() {
+	if ((leftLegScale.minX > enemy->rightArmScale.minX && leftLegScale.minX < enemy->rightArmScale.maxX) ||
+		(leftLegScale.maxX > enemy->rightArmScale.minX && leftLegScale.maxX < enemy->rightArmScale.maxX)) {
+		// if so, check for the minY and maxY
+		if ((leftLegScale.minY > enemy->rightArmScale.minY && leftLegScale.minY < enemy->rightArmScale.maxY) ||
+			(leftLegScale.maxY > enemy->rightArmScale.minY && leftLegScale.maxY < enemy->rightArmScale.maxY)) {
+			// finally, check that some z of our leg is between the minZ/maxZ of the enemy's head
+			if ((leftLegScale.minZ > enemy->rightArmScale.minZ && leftLegScale.minZ < enemy->rightArmScale.maxZ) ||
+				(leftLegScale.maxZ > enemy->rightArmScale.minZ && leftLegScale.maxZ < enemy->rightArmScale.maxZ)) {
+				// if so, we have collided with the head
+				enemy->rightArmScale.collided = true;
+				if (enemy->rekt == false) {
+					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				}
+				enemy->rekt = true;
+				leftLegScale.collided = true;
+			}
+			else {
+				enemy->rightArmScale.collided = false;
+			} // end Z check
+		}
+		else {
+			enemy->rightArmScale.collided = false;
+		} // end Y check
+	}
+	else {
+		enemy->rightArmScale.collided = false;
+	} // end X check
+}
+
+void Player::checkLeftLegCollision() {
+	if ((leftLegScale.minX > enemy->leftLegScale.minX && leftLegScale.minX < enemy->leftLegScale.maxX) ||
+		(leftLegScale.maxX > enemy->leftLegScale.minX && leftLegScale.maxX < enemy->leftLegScale.maxX)) {
+		// if so, check for the minY and maxY
+		if ((leftLegScale.minY > enemy->leftLegScale.minY && leftLegScale.minY < enemy->leftLegScale.maxY) ||
+			(leftLegScale.maxY > enemy->leftLegScale.minY && leftLegScale.maxY < enemy->leftLegScale.maxY)) {
+			// finally, check that some z of our leg is between the minZ/maxZ of the enemy's head
+			if ((leftLegScale.minZ > enemy->leftLegScale.minZ && leftLegScale.minZ < enemy->leftLegScale.maxZ) ||
+				(leftLegScale.maxZ > enemy->leftLegScale.minZ && leftLegScale.maxZ < enemy->leftLegScale.maxZ)) {
+				// if so, we have collided with the head
+				enemy->leftLegScale.collided = true;
+				if (enemy->rekt == false) {
+					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				}
+				enemy->rekt = true;
+				leftLegScale.collided = true;
+			}
+			else {
+				enemy->leftLegScale.collided = false;
+			} // end Z check
+		}
+		else {
+			enemy->leftLegScale.collided = false;
+		} // end Y check
+	}
+	else {
+		enemy->leftLegScale.collided = false;
+	} // end X check
+}
+
+void Player::checkRightLegCollision() {
+	if ((leftLegScale.minX > enemy->rightLegScale.minX && leftLegScale.minX < enemy->rightLegScale.maxX) ||
+		(leftLegScale.maxX > enemy->rightLegScale.minX && leftLegScale.maxX < enemy->rightLegScale.maxX)) {
+		// if so, check for the minY and maxY
+		if ((leftLegScale.minY > enemy->rightLegScale.minY && leftLegScale.minY < enemy->rightLegScale.maxY) ||
+			(leftLegScale.maxY > enemy->rightLegScale.minY && leftLegScale.maxY < enemy->rightLegScale.maxY)) {
+			// finally, check that some z of our leg is between the minZ/maxZ of the enemy's head
+			if ((leftLegScale.minZ > enemy->rightLegScale.minZ && leftLegScale.minZ < enemy->rightLegScale.maxZ) ||
+				(leftLegScale.maxZ > enemy->rightLegScale.minZ && leftLegScale.maxZ < enemy->rightLegScale.maxZ)) {
+				// if so, we have collided with the head
+				enemy->rightLegScale.collided = true;
+				if (enemy->rekt == false) {
+					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				}
+				enemy->rekt = true;
+				leftLegScale.collided = true;
+			}
+			else {
+				enemy->rightLegScale.collided = false;
+			} // end Z check
+		}
+		else {
+			enemy->rightLegScale.collided = false;
+		} // end Y check
+	}
+	else {
+		enemy->rightLegScale.collided = false;
+	} // end X check
 }

@@ -11,6 +11,8 @@ public:
 	float pendulum = 0.0;
 	float moving = 0.0;
 	float turning = 0.0;
+	float maxX, maxY, maxZ, minX, minY, minZ;
+	Matrix4 simC;
 
 	MatrixTransform();
 	~MatrixTransform();
@@ -18,7 +20,8 @@ public:
 	void draw(Matrix4);
 	void update();
 	void drawWireSphere();
-	void drawWireCube();
+	void drawWireCubeFromSphere();
+	void drawWireCubeFromCube();
 
 	void simDraw(Matrix4);
 };

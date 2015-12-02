@@ -8,7 +8,6 @@ class Geode : public Node
 {
 public:
 	Color color;
-	float maxX, maxY, maxZ, minX, minY, minZ;
 
 	Geode();
 	~Geode();
