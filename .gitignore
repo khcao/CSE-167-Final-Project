@@ -41,3 +41,11 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.tlog
+CSE167-Spring-2015-Starter-Code-master/Release/Your Waifu Is Trash.exe
+CSE167-Spring-2015-Starter-Code-master/Your Waifu Is Trash.v12.suo
+*.exe
+CSE167-Spring-2015-Starter-Code-master/Your Waifu Is Trash.sdf
+*.pdb
+CSE167-Spring-2015-Starter-Code-master/Release/vc120.pdb
+*.obj
