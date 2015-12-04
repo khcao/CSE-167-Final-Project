@@ -17,3 +17,5 @@ UpdateData Globals::updateData;
 
 Vector4 Globals::pl[6];
 Matrix4 Globals::perspectiveMatrix;
+bool Globals::player1Kicking = false;
+bool Globals::player2Kicking = false;

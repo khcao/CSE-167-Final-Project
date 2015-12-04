@@ -31,6 +31,9 @@ public:
 	static Light spotLight;
 	static Vector4 pl[6];
 	static Matrix4 perspectiveMatrix;
+	static
+		bool player1Kicking ;
+	static bool player2Kicking ;
 };
 
 #endif

@@ -25,9 +25,9 @@ public:
 
 private:  int nParticles;
 		  float time, deltaT;
-
+		  int playerNumber;
 public:
-	void initializeFire();
+	void initializeFire(int);
 	void updateFire();
 	void drawFire();
 

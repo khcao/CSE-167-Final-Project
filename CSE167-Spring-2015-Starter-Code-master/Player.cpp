@@ -10,9 +10,9 @@
 int Player::playerCount = 0;
 Vector4 noWhere(0, 0, 0, 0);
 // Makes a player centered at x = 0, z = 0, on floor y = 0
-Player::Player()
+Player::Player(int playerNum)
 {
-	flame.initializeFire();
+	flame.initializeFire(playerNum);
 	boundsOn = false;
 	cullOn = false;
 	Matrix4 trans;
@@ -248,6 +248,7 @@ void Player::updateKick() {
 		this->M = trans * this->M;
 		jumping = false;
 		kicking = false;
+
 		//std::cout << "stop kick" << std::endl;
 	}
 	if (kicking) {

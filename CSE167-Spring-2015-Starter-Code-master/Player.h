@@ -31,7 +31,7 @@ public:
 
 	Sphere baseSphere;
 	Cube baseCube;
-		FireParticleSystem flame;
+	FireParticleSystem flame;
 
 	bool boundsOn; // boolean to draw bounding boxes
 	bool cullOn; // boolean to allow culling of the player
@@ -48,7 +48,7 @@ public:
 	int playerID;
 	
 
-	Player();
+	Player(int);
 	~Player();
 
 	void drawPlayer(void); // correctly draws the player - call this instead of draw(M);

@@ -1,12 +1,13 @@
 #include "FireParticleSystem.h"
 
 #include <vector>
+#include "Globals.h"
 #include <GL/glut.h>
 using namespace std;
 static int num_fire = 4000;
 static vector<Particle> fire(num_fire, Particle());
-void FireParticleSystem::initializeFire() {
-
+void FireParticleSystem::initializeFire(int playerNum) {
+	playerNumber = playerNum;
 	for (int i = 0; i<num_fire; i++) {
 		fire[i].pos = Vector3(rand() % 2, 0, rand() % 1);
 		fire[i].vel = Vector3(0, 0, 0);
@@ -81,6 +82,12 @@ void FireParticleSystem::drawFire() {
 }
 
 void FireParticleSystem::render() {
+	if (playerNumber == 1 && Globals::player1Kicking) {
 	updateFire();
 	drawFire();
+}
+else if (playerNumber == 2 && Globals::player2Kicking) {
+	updateFire();
+	drawFire();
+}
 }

@@ -30,8 +30,8 @@ Light * currLight = &Globals::pointLight;
 Group root;
 Sphere baseSphere;
 Cube baseCube;
-Player player1;
-Player player2;
+Player player1(1);
+Player player2(2);
 bool boundsOn = false;
 bool cullOn = true;
 float frustumFOVFactor = 1.0;
@@ -137,6 +137,8 @@ void Window::idleCallback()
 	// if we jump, update that
 	player1.update();
 	player2.update();
+	Globals::player1Kicking = (player1.kicking);
+		Globals::player2Kicking = (player2.kicking);
 	/*trans.makeRotateX(1.0472 * robot.pendulum);
 	leftLegRotate.M = trans;
 	rightArmRotate.M = trans;
