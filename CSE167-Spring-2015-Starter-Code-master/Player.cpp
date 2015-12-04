@@ -12,6 +12,7 @@ Vector4 noWhere(0, 0, 0, 0);
 // Makes a player centered at x = 0, z = 0, on floor y = 0
 Player::Player()
 {
+	flame.initializeFire();
 	boundsOn = false;
 	cullOn = false;
 	Matrix4 trans;
@@ -115,6 +116,7 @@ Player::Player()
 	leftArmScale.addChild(&baseCube);
 	rightArmScale.addChild(&baseCube);
 	leftLegScale.addChild(&baseCube);
+	leftLegScale.addChild(&flame);
 	rightLegScale.addChild(&baseCube);
 
 

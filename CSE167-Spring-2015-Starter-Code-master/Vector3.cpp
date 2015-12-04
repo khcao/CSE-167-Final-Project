@@ -198,3 +198,8 @@ void Vector3::print(std::string comment)
     std::cout << comment << std::endl;
     std::cout << "<x:" << m[0] <<  ", y:" << m[1] << ", z:" << m[2] << ">" << std::endl;
 }
+
+float Vector3::get(int f)
+{
+	return m[f];
+}

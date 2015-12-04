@@ -13,7 +13,8 @@ protected:
     float m[3];
     
 public:
-    
+
+	float get(int);
     Vector3();
     Vector3(float, float, float);
     virtual ~Vector3(void);

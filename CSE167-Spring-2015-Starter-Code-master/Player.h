@@ -6,6 +6,7 @@
 #include "Cube.h"
 #include "Vector4.h"
 #include "Matrix4.h"
+#include "FireParticleSystem.h"
 class Player :
 	public MatrixTransform
 {
@@ -30,6 +31,7 @@ public:
 
 	Sphere baseSphere;
 	Cube baseCube;
+		FireParticleSystem flame;
 
 	bool boundsOn; // boolean to draw bounding boxes
 	bool cullOn; // boolean to allow culling of the player
