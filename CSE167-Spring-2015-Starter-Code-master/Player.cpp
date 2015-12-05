@@ -340,7 +340,6 @@ void Player::checkCollisionAlpha() {
 
 		// see if that vector's magnitude is less than the radius of enemy body and our leg combined
 		if (meToEnemy.toVector3().magnitude() < enemy->fullBody.radius + leftLegScale.radius) {
-			enemy->velocity.set(-1 * faceDirection[0], -1, -1 * faceDirection[2], 0);
 			if (enemy->rekt == false) {
 				std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
 			}
@@ -381,7 +380,7 @@ void Player::checkCollisionBeta() {
 			bool leftLeg = checkLeftLegCollision();
 			bool rightLeg = checkRightLegCollision();
 
-			enemy->velocity.set(-1 * faceDirection[0], -1, -1 * faceDirection[2], 0);
+			//enemy->velocity.set(faceDirection[0], -1, faceDirection[2], 0);
 			if (!head && !torso && !leftArm && !rightArm && !leftLeg && !rightLeg) {
 				clearCollided();
 			}

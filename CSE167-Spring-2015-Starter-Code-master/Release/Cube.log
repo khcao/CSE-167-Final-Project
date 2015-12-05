@@ -1,4 +1,4 @@
-﻿Build started 12/4/2015 7:24:48 PM.
+﻿Build started 12/4/2015 8:24:08 PM.
      1>Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (Cube.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
@@ -50,4 +50,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.95
+Time Elapsed 00:00:01.01

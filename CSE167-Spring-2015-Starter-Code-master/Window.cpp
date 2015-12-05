@@ -154,6 +154,12 @@ void Window::idleCallback()
 	p1Pos = p1Pos + (eMinusD.scale(15 + dist));
 	p1Pos = p1Pos + (x.scale(10));
 	p2Pos = p1Pos + (dMinusE.scale(10));
+	eMinusD.set(eMinusD[0], 0, eMinusD[2]);
+	while (p1Pos[1] < 2.0) {
+		p1Pos = p1Pos + (up.scale(0.5));
+		p1Pos = p1Pos + (eMinusD.scale(0.2));
+		p2Pos = p2Pos + (up.scale(0.5));
+	}
 	
 	Globals::camera.set(p1Pos, p2Pos, up);
 	glViewport(0, 0, width / 2, height / 2);
@@ -171,6 +177,12 @@ void Window::idleCallback()
 	p2PosB = p2PosB + (eMinusD.scale(15 + dist));
 	p2PosB = p2PosB + (x.scale(10));
 	p1PosB = p2PosB + (dMinusE.scale(10));
+	eMinusD.set(eMinusD[0], 0, eMinusD[2]);
+	while (p2PosB[1] < 2.0) {
+		p2PosB = p2PosB + (up.scale(0.5));
+		p2PosB = p2PosB + (eMinusD.scale(0.2));
+		p1PosB = p1PosB + (up.scale(0.5));
+	}
 
 	Globals::camera.set(p2PosB, p1PosB, up);
 	glViewport(width / 2, 0, width / 2, height / 2);
