@@ -121,20 +121,15 @@ Player::Player(int playerNum)
 
 
 	//Set the color of our Geodes
-	int time = glutGet(GLUT_ELAPSED_TIME);
-	srand(time);
-	float red, green, blue;
-	red = (static_cast<float>(rand())) / ((RAND_MAX));
-	green = (static_cast<float>(rand())) / ((RAND_MAX));
-	blue = (static_cast<float>(rand())) / ((RAND_MAX));
-	Color colorSph(red, green, blue);
-	baseSphere.color = colorSph;
-
-	red = (static_cast<float>(rand())) / ((RAND_MAX));
-	green = (static_cast<float>(rand())) / ((RAND_MAX));
-	blue = (static_cast<float>(rand())) / ((RAND_MAX));
-	Color colorCub(red, green, blue);
-	baseCube.color = colorCub;
+	Color colorSph;
+	if (playerID == 1) {
+		colorSph = colorSph.blue();
+	}
+	else {
+		colorSph = colorSph.red();
+	}
+	this->baseSphere.color = colorSph;
+	this->baseCube.color = colorSph;
 
 	
 	velocity = noWhere;
@@ -168,6 +163,13 @@ void Player::drawPlayer() {
 		torsoScale.drawWireCubeFromCube();
 		//fullBody.drawWireSphere();
 	}
+	Color colorSph;
+	if (playerID == 1) {
+		glColor3fv(colorSph.red().ptr());
+	}
+	else {
+		glColor3fv(colorSph.blue().ptr());
+	}
 	if (cullOn) {
 		Camera cam = Globals::camera;
 		Vector3 topLeftFrontPoint = cam.nearPlane[0];
@@ -197,9 +199,9 @@ void Player::drawPlayer() {
 void Player::initiateJump() {
 	// If the player is on the ground, do it
 	if (!jumping && !kicking) {
-		Vector4 velVec(0, 0.09, 0);
+		Vector4 velVec(0, 0.5, 0);
 		velocity = velVec;
-		Vector4 accVec(0, -0.0005, 0);
+		Vector4 accVec(0, -0.025, 0);
 		acceleration = accVec;
 		jumping = true;
 		updateJump();
@@ -252,11 +254,12 @@ void Player::updateKick() {
 		//std::cout << "stop kick" << std::endl;
 	}
 	if (kicking) {
-		if (this->M.get(3, 1) < 0.15) {
-			trans.makeTranslate(velocity[0] / 10.0, velocity[1] / 10.0, velocity[2] / 10.0);
+		if (//this->M.get(3, 1) < 0.05 || 
+			this->leftLegScale.collided) {
+			trans.makeTranslate(velocity[0] / 5.0, velocity[1] / 5.0, velocity[2] / 5.0);
 		}
 		else {
-			trans.makeTranslate(velocity[0] * 2.0, velocity[1] * 2.0, velocity[2] * 2.0);
+			trans.makeTranslate(velocity[0] * 5.0, velocity[1] * 5.0, velocity[2] * 5.0);
 		}
 		this->M = trans * this->M;
 		//std::cout << "kicking" << std::endl;
@@ -371,15 +374,17 @@ void Player::checkCollisionBeta() {
 			/* if we have entered here, our kick has reached our enemy's personal space. check which body part we have hit */
 			//// head ////
 			// check if our kicking leg's minX or maxX are between the minX/maxX of enemy's head
-			checkHeadCollision();
-			checkTorsoCollision();
-			checkLeftArmCollision();
-			checkRightArmCollision();
-			checkLeftLegCollision();
-			checkRightLegCollision();
+			bool head = checkHeadCollision();
+			bool torso = checkTorsoCollision();
+			bool leftArm = checkLeftArmCollision();
+			bool rightArm = checkRightArmCollision();
+			bool leftLeg = checkLeftLegCollision();
+			bool rightLeg = checkRightLegCollision();
 
 			enemy->velocity.set(-1 * faceDirection[0], -1, -1 * faceDirection[2], 0);
-			enemy->fullBody.collided = true;
+			if (!head && !torso && !leftArm && !rightArm && !leftLeg && !rightLeg) {
+				clearCollided();
+			}
 		}
 		else {
 			clearCollided();
@@ -399,7 +404,7 @@ void Player::clearCollided() {
 	enemy->rightLegScale.collided = false;
 }
 
-void Player::checkHeadCollision() {
+bool Player::checkHeadCollision() {
 	if ((leftLegScale.minX > enemy->headScale.minX && leftLegScale.minX < enemy->headScale.maxX) ||
 		(leftLegScale.maxX > enemy->headScale.minX && leftLegScale.maxX < enemy->headScale.maxX)) {
 		// if so, check for the minY and maxY
@@ -415,6 +420,7 @@ void Player::checkHeadCollision() {
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
+				return true;
 			}
 			else {
 				enemy->headScale.collided = false;
@@ -427,9 +433,10 @@ void Player::checkHeadCollision() {
 	else {
 		enemy->headScale.collided = false;
 	} // end X check
+	return false;
 }
 
-void Player::checkTorsoCollision() {
+bool Player::checkTorsoCollision() {
 	if ((leftLegScale.minX > enemy->torsoScale.minX && leftLegScale.minX < enemy->torsoScale.maxX) ||
 		(leftLegScale.maxX > enemy->torsoScale.minX && leftLegScale.maxX < enemy->torsoScale.maxX)) {
 		// if so, check for the minY and maxY
@@ -445,6 +452,7 @@ void Player::checkTorsoCollision() {
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
+				return true;
 			}
 			else {
 				enemy->torsoScale.collided = false;
@@ -457,9 +465,10 @@ void Player::checkTorsoCollision() {
 	else {
 		enemy->torsoScale.collided = false;
 	} // end X check
+	return false;
 }
 
-void Player::checkLeftArmCollision() {
+bool Player::checkLeftArmCollision() {
 	if ((leftLegScale.minX > enemy->leftArmScale.minX && leftLegScale.minX < enemy->leftArmScale.maxX) ||
 		(leftLegScale.maxX > enemy->leftArmScale.minX && leftLegScale.maxX < enemy->leftArmScale.maxX)) {
 		// if so, check for the minY and maxY
@@ -475,6 +484,7 @@ void Player::checkLeftArmCollision() {
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
+				return true;
 			}
 			else {
 				enemy->leftArmScale.collided = false;
@@ -487,9 +497,10 @@ void Player::checkLeftArmCollision() {
 	else {
 		enemy->leftArmScale.collided = false;
 	} // end X check
+	return false;
 }
 
-void Player::checkRightArmCollision() {
+bool Player::checkRightArmCollision() {
 	if ((leftLegScale.minX > enemy->rightArmScale.minX && leftLegScale.minX < enemy->rightArmScale.maxX) ||
 		(leftLegScale.maxX > enemy->rightArmScale.minX && leftLegScale.maxX < enemy->rightArmScale.maxX)) {
 		// if so, check for the minY and maxY
@@ -505,6 +516,7 @@ void Player::checkRightArmCollision() {
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
+				return true;
 			}
 			else {
 				enemy->rightArmScale.collided = false;
@@ -517,9 +529,10 @@ void Player::checkRightArmCollision() {
 	else {
 		enemy->rightArmScale.collided = false;
 	} // end X check
+	return false;
 }
 
-void Player::checkLeftLegCollision() {
+bool Player::checkLeftLegCollision() {
 	if ((leftLegScale.minX > enemy->leftLegScale.minX && leftLegScale.minX < enemy->leftLegScale.maxX) ||
 		(leftLegScale.maxX > enemy->leftLegScale.minX && leftLegScale.maxX < enemy->leftLegScale.maxX)) {
 		// if so, check for the minY and maxY
@@ -535,6 +548,7 @@ void Player::checkLeftLegCollision() {
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
+				return true;
 			}
 			else {
 				enemy->leftLegScale.collided = false;
@@ -547,9 +561,10 @@ void Player::checkLeftLegCollision() {
 	else {
 		enemy->leftLegScale.collided = false;
 	} // end X check
+	return false;
 }
 
-void Player::checkRightLegCollision() {
+bool Player::checkRightLegCollision() {
 	if ((leftLegScale.minX > enemy->rightLegScale.minX && leftLegScale.minX < enemy->rightLegScale.maxX) ||
 		(leftLegScale.maxX > enemy->rightLegScale.minX && leftLegScale.maxX < enemy->rightLegScale.maxX)) {
 		// if so, check for the minY and maxY
@@ -565,6 +580,7 @@ void Player::checkRightLegCollision() {
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
+				return true;
 			}
 			else {
 				enemy->rightLegScale.collided = false;
@@ -577,4 +593,5 @@ void Player::checkRightLegCollision() {
 	else {
 		enemy->rightLegScale.collided = false;
 	} // end X check
+	return false;
 }

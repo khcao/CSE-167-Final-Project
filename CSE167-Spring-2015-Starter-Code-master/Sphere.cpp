@@ -17,7 +17,8 @@ Sphere::Sphere()
 	green = (static_cast<float>(rand())) / ((RAND_MAX));
 	blue = (static_cast<float>(rand())) / ((RAND_MAX));
 
-	Color color(red, green, blue);
+	Color colorNew(red, green, blue);
+	color = colorNew;
 	glColor3fv(color.ptr());
 }
 
@@ -28,7 +29,7 @@ Sphere::~Sphere()
 }
 
 void Sphere::render() {
-	glColor3fv(this->color.ptr());
+	//glColor3fv(this->color.ptr());
 	glutSolidSphere(1.0, 80, 80);
 }
 

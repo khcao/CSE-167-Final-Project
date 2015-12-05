@@ -28,8 +28,8 @@ Camera::~Camera()
 
 void Camera::init() {
 	c.identity();
-	e.set(40.0, 20.0, 30.0);
-	d.set(20.0, 0.0, 0.0);
+	e.set(0.0, 20.0, 30.0);
+	d.set(0.0, 0.0, 0.0);
 	up.set(0.0, 1.0, 0.0);
 
 	//Pre-define a camera matrix (and its inverse) that are shifted 'e' from the origin
@@ -67,10 +67,10 @@ void Camera::update()
 	ci = c.rigidInverse();
 
 	float nearY = nearD * tan(FOV * 3.14159265358979323846 / 360);
-	float nearX = nearY * (double(windowW) / double(windowH));
+	float nearX = nearY * (double(windowW)/ 2 / double(windowH));
 
 	float farY = farD * tan(FOV * 3.14159265358979323846 / 360);
-	float farX = farY * (double(windowW) / double(windowH));
+	float farX = farY * (double(windowW)/ 2 / double(windowH));
 	
 	Vector3 dUnit = zAxis.scale(-1);
 	Vector3 farCenter = e + (dUnit * farD);

@@ -35,6 +35,7 @@ Player player2(2);
 bool boundsOn = false;
 bool cullOn = true;
 float frustumFOVFactor = 1.0;
+bool printing = false;
 
 GLuint cut;
 
@@ -138,22 +139,49 @@ void Window::idleCallback()
 	player1.update();
 	player2.update();
 	Globals::player1Kicking = (player1.kicking);
-		Globals::player2Kicking = (player2.kicking);
-	/*trans.makeRotateX(1.0472 * robot.pendulum);
-	leftLegRotate.M = trans;
-	rightArmRotate.M = trans;
-
-	trans.makeRotateX(-1.0472 * robot.pendulum);
-	rightLegRotate.M = trans;
-	leftArmRotate.M = trans;*/
+	Globals::player2Kicking = (player2.kicking);
 
 	//trans.makeRotateY(0.0005);
     //Call the display routine to draw the cube
-    displayCallback();
+	Vector3 p1Pos(player1.M.get(3, 0), player1.M.get(3,1), player1.M.get(3, 2));
+	Vector3 p2Pos(player2.M.get(3, 0), player2.M.get(3,1), player2.M.get(3, 2));
+	Vector3 up(0, 1, 0);
+	Vector3 dMinusE = (p2Pos - p1Pos).normalize();
+	float dist = (p2Pos - p1Pos).magnitude();
+	Vector3 x = dMinusE.cross(up);
+	x = x.cross(dMinusE);
+	Vector3 eMinusD = (p1Pos - p2Pos).normalize();
+	p1Pos = p1Pos + (eMinusD.scale(15 + dist));
+	p1Pos = p1Pos + (x.scale(10));
+	p2Pos = p1Pos + (dMinusE.scale(10));
+	
+	Globals::camera.set(p1Pos, p2Pos, up);
+	glViewport(0, 0, width / 2, height);
+	glScissor(0, 0, width / 2, height);
+	displayCallback();
+
+
+	Vector3 p1PosB(player1.M.get(3, 0), player1.M.get(3, 1), player1.M.get(3, 2));
+	Vector3 p2PosB(player2.M.get(3, 0), player2.M.get(3, 1), player2.M.get(3, 2));
+	dMinusE = (p1PosB - p2PosB).normalize();
+	dist = (p1PosB - p2PosB).magnitude();
+	x = dMinusE.cross(up);
+	x = x.cross(dMinusE);
+	eMinusD = (p2PosB - p1PosB).normalize();
+	p2PosB = p2PosB + (eMinusD.scale(15 + dist));
+	p2PosB = p2PosB + (x.scale(10));
+	p1PosB = p2PosB + (dMinusE.scale(10));
+
+	Globals::camera.set(p2PosB, p1PosB, up);
+	glViewport(width / 2, 0, width / 2, height);
+	glScissor(width / 2, 0, width / 2, height);
+	displayCallback();
+	glutSwapBuffers();
+
 
 	duration = (clock() - start) / (double)CLOCKS_PER_SEC;
 	//std::cout << "FPS: " << 1 / duration << endl;
-	std::cout << "FPS: " << 1 / duration << std::endl;
+	//std::cout << "FPS: " << 1 / duration << std::endl;
 }
 
 //----------------------------------------------------------------------------
@@ -236,7 +264,6 @@ void Window::displayCallback()
     glFlush();
     
     //Swap the off-screen buffer (the one we just drew to) with the on-screen buffer
-    glutSwapBuffers();
 }
 
 
@@ -396,5 +423,12 @@ void Window::keyPress(unsigned char key, int x, int y) {
 			player2.robot.M = trans * player2.robot.M;
 			player2.faceDirection = trans * player2.faceDirection;
 			break;
+		case 'p':
+			if (printing) {
+				printing = false;
+			}
+			else {
+				printing = true;
+			}
 	}
 }

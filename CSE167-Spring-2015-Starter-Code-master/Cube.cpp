@@ -17,7 +17,8 @@ Cube::Cube()
 	green = (static_cast<float>(rand())) / ((RAND_MAX));
 	blue = (static_cast<float>(rand())) / ((RAND_MAX));
 
-	Color color(red, green, blue);
+	Color colorNew(red, green, blue);
+	color = colorNew;
 	glColor3fv(color.ptr());
 }
 
@@ -27,7 +28,7 @@ Cube::~Cube()
 }
 
 void Cube::render() {
-	glColor3fv(this->color.ptr());
+	//glColor3fv(this->color.ptr());
 	glutSolidCube(1.0);
 }
 

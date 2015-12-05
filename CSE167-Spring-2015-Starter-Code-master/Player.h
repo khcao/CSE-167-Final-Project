@@ -13,12 +13,12 @@ class Player :
 protected:
 	void checkCollisionAlpha();
 	void checkCollisionBeta();
-	void checkHeadCollision();
-	void checkTorsoCollision();
-	void checkLeftArmCollision();
-	void checkRightArmCollision();
-	void checkLeftLegCollision();
-	void checkRightLegCollision();
+	bool checkHeadCollision();
+	bool checkTorsoCollision();
+	bool checkLeftArmCollision();
+	bool checkRightArmCollision();
+	bool checkLeftLegCollision();
+	bool checkRightLegCollision();
 	void clearCollided();
 public:
 	MatrixTransform robot, fullBody;
