@@ -156,8 +156,8 @@ void Window::idleCallback()
 	p2Pos = p1Pos + (dMinusE.scale(10));
 	
 	Globals::camera.set(p1Pos, p2Pos, up);
-	glViewport(0, 0, width / 2, height);
-	glScissor(0, 0, width / 2, height);
+	glViewport(0, 0, width / 2, height / 2);
+	glScissor(0, 0, width / 2, height / 2);
 	displayCallback();
 
 
@@ -173,9 +173,21 @@ void Window::idleCallback()
 	p1PosB = p2PosB + (dMinusE.scale(10));
 
 	Globals::camera.set(p2PosB, p1PosB, up);
-	glViewport(width / 2, 0, width / 2, height);
-	glScissor(width / 2, 0, width / 2, height);
+	glViewport(width / 2, 0, width / 2, height / 2);
+	glScissor(width / 2, 0, width / 2, height / 2);
 	displayCallback();
+
+	Globals::camera.init();
+	glMatrixMode(GL_PROJECTION);                                     //Set the OpenGL matrix mode to Projection
+	glLoadIdentity();                                                //Clear the projection matrix by loading the identity
+	gluPerspective(60.0, double(width) / (double)height * 2, 1.0, 1000.0); //Set perspective projection viewing frustum
+	glViewport(0, height / 2, width, height / 2);
+	glScissor(0, height / 2, width, height / 2);
+	displayCallback();
+
+	glMatrixMode(GL_PROJECTION);                                     //Set the OpenGL matrix mode to Projection
+	glLoadIdentity();                                                //Clear the projection matrix by loading the identity
+	gluPerspective(60.0, double(width) / (double)height, 1.0, 1000.0);
 	glutSwapBuffers();
 
 

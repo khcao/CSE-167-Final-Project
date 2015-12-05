@@ -3,7 +3,7 @@
 Camera::Camera()
 {
     c.identity();
-    e.set(0.0, 20.0, 30.0);
+    e.set(0.0, 20.0, 40.0);
     d.set(0.0, 0.0, 0.0);
     up.set(0.0, 1.0, 0.0);
     
@@ -28,7 +28,7 @@ Camera::~Camera()
 
 void Camera::init() {
 	c.identity();
-	e.set(0.0, 20.0, 30.0);
+	e.set(0.0, 20.0, 40.0);
 	d.set(0.0, 0.0, 0.0);
 	up.set(0.0, 1.0, 0.0);
 
