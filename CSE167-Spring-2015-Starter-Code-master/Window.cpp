@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <algorithm> 
 #include <ctime>
+#include "mmsystem.h"
 int Window::width  = 512;   //Set window width in pixels here
 int Window::height = 512;   //Set window height in pixels here
 
@@ -122,6 +123,7 @@ void Window::initialize(void)
 	cut = GenerateCity();
 	Globals::shader.printLog();
 }
+
 void renderBitmapString(float x, float y, void *font, std::string str)
 {
 	glRasterPos2f(100,100);
@@ -136,6 +138,9 @@ void displayScoreOverlay() {
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
+	Matrix4 C;
+	C.makeScale(0.8);
+	glMultMatrixf(C.ptr());
 	gluOrtho2D(0.0, 100, 0.0, 100);
 	//player 1 score
 
@@ -160,6 +165,7 @@ void displayScoreOverlay() {
 		char c = *i;
 		glutBitmapCharacter(font2, c);
 	}
+
 	glPopMatrix();
 
 }
@@ -168,7 +174,32 @@ void displayScoreOverlay() {
 // This is called at the start of every new "frame" (qualitatively)
 void Window::idleCallback()
 {
-	
+	if (Globals::player1Score == 3 || Globals::player2Score == 3) {
+		PlaySound(TEXT("respawn_16.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	}
+	else if ((Globals::player1Kicking || Globals::player2Kicking) && !player1.leftLegScale.collided) {
+		if (!Globals::previouslyKicking)
+			PlaySound(TEXT("fire.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		Globals::previouslyKicking = true;
+		Globals::announcing = false;
+	}
+	else if ( player1.leftLegScale.collided) {
+		if (!Globals::previouslyCollided)
+			PlaySound(TEXT("Falcon_Kick.wav"), NULL, SND_FILENAME | SND_ASYNC);
+		Globals::previouslyCollided = true;
+		Globals::announcing = false;
+	}
+	else if (!player1.leftLegScale.collided && !Globals::announcing) {
+		PlaySound(NULL, NULL, SND_FILENAME | SND_ASYNC);
+		Globals::previouslyCollided = false;
+		Globals::previouslyKicking = false;
+	}
+	else if(!Globals::announcing) {
+		PlaySound(NULL, NULL, SND_FILENAME | SND_ASYNC);
+		Globals::previouslyCollided = false;
+		Globals::previouslyKicking = false;
+	}
+
 	if (Globals::exploreMode){
 			exploreIdleCallback();
 			return;
@@ -389,7 +420,7 @@ void Window::displayCallback()
 }
 
 
-//TODO: Keyboard callbacks!
+
 void Window::keyPress(unsigned char key, int x, int y) {
 	Matrix4 trans;
 	Matrix4 scale;
@@ -414,66 +445,6 @@ void Window::keyPress(unsigned char key, int x, int y) {
 				player2.boundsOn = true;
 			}
 			//std::cout << boundsOn << std::endl;
-			break;
-		case 'j':
-			d3 = Globals::camera.e;
-			d3 = d3.scale(-1);
-			trans.makeTranslate(d3[0], d3[1], d3[2]);
-
-			d = Globals::camera.d.toVector4(1);
-			d = trans * d;
-			trans.makeRotateY(0.1);
-			d = trans * d;
-			d3 = d3.scale(-1);
-			trans.makeTranslate(d3[0], d3[1], d3[2]);
-			d = trans * d;
-			Globals::camera.d = d.toVector3();
-
-			Globals::camera.update();
-			break;
-		case 'l':
-			d3 = Globals::camera.e;
-			d3 = d3.scale(-1);
-			trans.makeTranslate(d3[0], d3[1], d3[2]);
-
-			d = Globals::camera.d.toVector4(1);
-			d = trans * d;
-			trans.makeRotateY(-0.1);
-			d = trans * d;
-			d3 = d3.scale(-1);
-			trans.makeTranslate(d3[0], d3[1], d3[2]);
-			d = trans * d;
-			Globals::camera.d = d.toVector3();
-
-			Globals::camera.update();
-			break;
-		case 'k':
-			if (frustumFOVFactor <= 2.0) {
-				frustumFOVFactor = frustumFOVFactor + 0.02;
-			}
-			else {
-				frustumFOVFactor = 2.0;
-			}
-			glMatrixMode(GL_PROJECTION);
-			glLoadIdentity();
-			gluPerspective(frustumFOVFactor * 60.0, double(width) / (double)height, 1.0, 1000.0);
-
-			Globals::camera.FOV = frustumFOVFactor * 60.0;
-			Globals::camera.update();
-			break;
-		case 'i':
-			if (frustumFOVFactor >= 0.5) {
-				frustumFOVFactor = frustumFOVFactor - 0.02;
-			}
-			else {
-				frustumFOVFactor = 0.5;
-			}
-			glMatrixMode(GL_PROJECTION);                                
-			glLoadIdentity();                                                
-			gluPerspective(frustumFOVFactor * 60.0, double(width) / (double)height, 1.0, 1000.0); 
-
-			Globals::camera.FOV = frustumFOVFactor * 60.0;
-			Globals::camera.update();
 			break;
 		case 'c':
 			if (player1.cullOn) {
@@ -553,7 +524,15 @@ void Window::keyPress(unsigned char key, int x, int y) {
 				printing = true;
 			}
 			break;
-		case '1':Globals::exploreMode = !Globals::exploreMode;
+		case '1':
+			Globals::exploreMode = !Globals::exploreMode;
+			if (!Globals::exploreMode) {
+				PlaySound(TEXT("count_battle_01.wav"), NULL, SND_FILENAME | SND_ASYNC);
+				Globals::announcing = true;
+			}
+			else {
+				Globals::announcing = false;
+			}
 			break;
 		case '=':
 			Globals::blurShaderToggle = !Globals::blurShaderToggle;

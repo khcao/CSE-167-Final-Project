@@ -165,6 +165,14 @@ void Player::drawPlayer() {
 		torsoScale.drawWireCubeFromCube();
 		//fullBody.drawWireSphere();
 	}
+	else {
+		leftLegScale.genMinMaxFromCube();
+		rightLegScale.genMinMaxFromCube();
+		leftArmScale.genMinMaxFromCube();
+		rightArmScale.genMinMaxFromCube();
+		headScale.genMinMaxFromSphere();
+		torsoScale.genMinMaxFromCube();
+	}
 	Color colorSph;
 	if (playerID == 1) {
 		glColor3fv(colorSph.red().ptr());
@@ -204,7 +212,7 @@ void Player::drawPlayer() {
 void Player::initiateJump() {
 	// If the player is on the ground, do it
 	if (!jumping && !kicking) {
-		Vector4 velVec(0, 0.5, 0);
+		Vector4 velVec(0, 0.55, 0);
 		velocity = velVec;
 		Vector4 accVec(0, -0.025, 0);
 		acceleration = accVec;
@@ -238,7 +246,7 @@ void Player::initiateKick() {
 	if (jumping && !kicking) {
 		jumping = false;
 		kicking = true;
-		Vector4 velVec(0.1*faceDirection[0], -0.1, 0.1*faceDirection[2]);
+		Vector4 velVec(0.1*faceDirection[0], -0.07, 0.1*faceDirection[2]);
 		velocity = velVec;
 		updateKick();
 		//std::cout << "start kick" << std::endl;
@@ -261,7 +269,7 @@ void Player::updateKick() {
 	if (kicking) {
 		if (//this->M.get(3, 1) < 0.05 || 
 			this->leftLegScale.collided) {
-			trans.makeTranslate(velocity[0] / 5.0, velocity[1] / 5.0, velocity[2] / 5.0);
+			trans.makeTranslate(velocity[0] / 3.0, velocity[1] / 3.0, velocity[2] / 3.0);
 		}
 		else {
 			trans.makeTranslate(velocity[0] * 5.0, velocity[1] * 5.0, velocity[2] * 5.0);

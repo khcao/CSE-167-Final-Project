@@ -46,7 +46,7 @@ void LandQuad::createBuildingBlock()
 		float distRight = transformedCenter.dot(cam.normRight.toVector4(1));
 		float distBack = transformedCenter.dot(cam.normBack.toVector4(1));
 
-		if ( distLeft < 50 && distRight <  50 && distFront < 0) {
+		if ( distLeft < 40 && distRight <  40 && distFront < 0) {
 			//we're good
 			break;
 		}

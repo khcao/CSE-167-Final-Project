@@ -31,14 +31,16 @@ public:
 	static Light spotLight;
 	static Vector4 pl[6];
 	static Matrix4 perspectiveMatrix;
-	static
-		bool player1Kicking ;
+	static bool player1Kicking ;
 	static bool player2Kicking ;
+	static bool previouslyKicking;
+	static bool previouslyCollided;
 	static bool exploreMode;
 	static int player1Score;
 	static int player2Score;
 	static Shader shader;
 	static bool blurShaderToggle;
+	static bool announcing;
 };
 
 #endif

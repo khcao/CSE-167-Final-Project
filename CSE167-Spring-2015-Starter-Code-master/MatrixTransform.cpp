@@ -83,7 +83,7 @@ void MatrixTransform::drawWireSphere() {
 
 }
 
-void MatrixTransform::drawWireCubeFromCube() {
+void MatrixTransform::genMinMaxFromCube() {
 	Vector4 tLB, tLF, tRB, tRF, bLB, bLF, bRB, bRF;
 
 	tLB.set(-0.5, 0.5, -0.5, 1);
@@ -120,6 +120,10 @@ void MatrixTransform::drawWireCubeFromCube() {
 		std::fmin(std::fmin(bLB[1], bLF[1]), std::fmin(bRB[1], bRF[1])));
 	minZ = std::fmin(std::fmin(std::fmin(tLB[2], tLF[2]), std::fmin(tRB[2], tRF[2])),
 		std::fmin(std::fmin(bLB[2], bLF[2]), std::fmin(bRB[2], bRF[2])));
+}
+
+void MatrixTransform::drawWireCubeFromCube() {
+	genMinMaxFromCube();
 
 	// draw the transparent cube
 	glMatrixMode(GL_MODELVIEW);
@@ -169,7 +173,7 @@ void MatrixTransform::drawWireCubeFromCube() {
 
 }
 
-void MatrixTransform::drawWireCubeFromSphere() {
+void MatrixTransform::genMinMaxFromSphere() {
 	maxX = newCenter[0] + radius;
 	minX = newCenter[0] - radius;
 
@@ -178,6 +182,10 @@ void MatrixTransform::drawWireCubeFromSphere() {
 
 	maxZ = newCenter[2] + radius;
 	minZ = newCenter[2] - radius;
+}
+
+void MatrixTransform::drawWireCubeFromSphere() {
+	genMinMaxFromSphere();
 
 	// draw the transparent cube
 	glMatrixMode(GL_MODELVIEW);

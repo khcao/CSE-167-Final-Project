@@ -25,3 +25,6 @@ int Globals::player1Score = 0;
 int Globals::player2Score = 0;
  Shader Globals::shader("./glowVertex.glsl","./glowPixel.glsl",true);
  bool Globals::blurShaderToggle = true;
+ bool Globals::previouslyKicking = false;
+ bool Globals::previouslyCollided = false;
+ bool Globals::announcing = false;

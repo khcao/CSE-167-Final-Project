@@ -22,6 +22,8 @@ public:
 	void drawWireSphere();
 	void drawWireCubeFromSphere();
 	void drawWireCubeFromCube();
+	void genMinMaxFromCube();
+	void genMinMaxFromSphere();
 
 	void simDraw(Matrix4);
 };
