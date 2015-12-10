@@ -49,3 +49,5 @@ CSE167-Spring-2015-Starter-Code-master/Your Waifu Is Trash.sdf
 *.pdb
 CSE167-Spring-2015-Starter-Code-master/Release/vc120.pdb
 *.obj
+*.obj
+*.tlog

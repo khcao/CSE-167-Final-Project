@@ -14,11 +14,12 @@
     <ProjectGuid>{09A0AEEE-352C-4A0B-A28B-9A3E696E96E0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>Your Waifu Is Trash</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -97,6 +98,7 @@
     <ClInclude Include="Geode.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GiantBuilding.h" />
+    <ClInclude Include="GLee.h" />
     <ClInclude Include="Group.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="Light.h" />
@@ -108,9 +110,9 @@
     <ClInclude Include="DrawData.h" />
     <ClInclude Include="MatrixTransform.h" />
     <ClInclude Include="MetroBlock.h" />
-    <ClInclude Include="mobilierUrbain.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="SmallBuilding.h" />
     <ClInclude Include="Sphere.h" />
@@ -135,6 +137,7 @@
     <ClCompile Include="Geode.cpp" />
     <ClCompile Include="geometry.cpp" />
     <ClCompile Include="GiantBuilding.cpp" />
+    <ClCompile Include="GLee.c" />
     <ClCompile Include="Group.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="main.cpp" />
@@ -149,9 +152,9 @@
     <ClCompile Include="DrawData.cpp" />
     <ClCompile Include="MatrixTransform.cpp" />
     <ClCompile Include="MetroBlock.cpp" />
-    <ClCompile Include="mobilierUrbain.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="SmallBuilding.cpp" />
     <ClCompile Include="Sphere.cpp" />

@@ -3,14 +3,9 @@
 
 //########################################################################################################### QUADRANGLE
 
-/*!
-\brief Create a quadrangular block.
-\param a,b,c,d End vertices of the parcel.
-*/
 BlockQuad::BlockQuad(const Vector& _a, const Vector& _b, const Vector& _c, const Vector& _d, const std::vector<Centre>&_centres) : Quadrangle(_a, _b, _c, _d)
 {
 	//this gives us a lamp
-//	Mobilier(7 * UNITE, 50 * UNITE, 0.3*UNITE).creerLampadaires(Quadrangle(_a, _b, _c, _d)); 
 	//draw the sidewalk then the building
 	Vector::setCol(COL_TROTT1, COL_TROTT2, COL_TROTT3);
 	PrismQuad(Quadrangle(_a, _b, _c, _d), 0.30*UNIT).Render(); // hauteur de 20 cm
@@ -35,11 +30,11 @@ void LandQuad::createBuildingBlock()
 		Camera cam = Globals::camera;
 		Vector3 topLeftFrontPoint = cam.nearPlane[0];
 		Vector3 botRightBackPoint = cam.farPlane[3];
-		float  p1[16];
+		/*float  p1[16];
 		glGetFloatv(GL_PROJECTION_MATRIX, p1);
 		Matrix4 perspectiveMatrix = Matrix4(p1[0], p1[1], p1[2], p1[3], 
 			p1[4], p1[5], p1[6], p1[7], p1[8], p1[9], p1[10], p1[11], p1[12], p1[13], p1[14], p1[15]);
-
+	*/
 		Vector4 centerOfItem(p[i][0], p[i][1], p[i][2],1);
 
 		Vector4 transformedCenter = cam.getInverseMatrix() * centerOfItem;
@@ -51,7 +46,7 @@ void LandQuad::createBuildingBlock()
 		float distRight = transformedCenter.dot(cam.normRight.toVector4(1));
 		float distBack = transformedCenter.dot(cam.normBack.toVector4(1));
 
-		if ( distLeft < 5 && distRight <  5 && distFront < 0) {
+		if ( distLeft < 50 && distRight <  50 && distFront < 0) {
 			//we're good
 			break;
 		}
@@ -194,14 +189,10 @@ void LandQuad::Subdivide()
 
 void drawSidewalk(const Vector& _a, const Vector& _b, const Vector& _c, const Vector& _d) {
 
-	//	Mobilier(7 * UNITE, 50 * UNITE, 0.3*UNITE).creerLampadaires(Quadrangle(_a, _b, _c, _d)); 
-	//push in the 
 	Vector::setCol(COL_TROTT1, COL_TROTT2, COL_TROTT3);
 	PrismQuad(Quadrangle(_a, _b, _c, _d), 0.30*UNIT).Render(); // hauteur de 20 cm
 	Vector::setColDefaut();
 }
-
-//########################################################################################################### CENTRE
 
 Centre::Centre(const Centre& _centre) : type(_centre.type), positionCentre(_centre.positionCentre)
 {}
@@ -244,7 +235,6 @@ double Centre::getDistance(const Vector &_a, const Vector &_b, const Vector &_c,
 
 double Centre::getHauteur(const double &_distance) const
 {
-	//calculette grahique online : http://grapheur.cours-de-math.eu/
 	double hauteur = 250 * (exp(6 / _distance) - 1);
 
 	if (hauteur > 40) { hauteur = rand() % 15 + 40; }
@@ -252,9 +242,6 @@ double Centre::getHauteur(const double &_distance) const
 }
 
 TypeCentre Centre::getType() const { return type; }
-
-
-//########################################################################################################### CITY
 
 /*!
 \brief Constructor of a city

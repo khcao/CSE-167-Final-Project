@@ -1,4 +1,3 @@
-// Changelog 14.02.2001
 
 #ifndef __City__ 
 #define __City__
@@ -8,12 +7,10 @@
 #include "shape.h"
 
 
-#include "mobilierUrbain.h"
-
 #include "BuildingBlock.h"
 #include "Globals.h"
 
-#define UNIT 1/4 //soit 1 m?tre, on pourra la modifier plus tard
+#define UNIT 1/4
 
 enum TypeCentre { VILLE = 0, RESIDENCE = 1, INDUSTRIEL = 2 };
 

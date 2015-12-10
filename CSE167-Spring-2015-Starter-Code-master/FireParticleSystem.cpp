@@ -9,51 +9,53 @@ static vector<Particle> fire(num_fire, Particle());
 void FireParticleSystem::initializeFire(int playerNum) {
 	playerNumber = playerNum;
 	for (int i = 0; i<num_fire; i++) {
-		fire[i].pos = Vector3(rand() % 2, 0, rand() % 1);
-		fire[i].vel = Vector3(0, 0, 0);
 		fire[i].age = rand() % 10 + 1;
+		fire[i].pos = Vector3(rand() % 2, 0, rand() % 1);
 		fire[i].lifetime = rand() % 10 + 1;
+		fire[i].velocity = Vector3(0, 0, 0);
 	}
 }
 
 void FireParticleSystem::updateFire() {
 
 	for (int i = 0; i<num_fire; i++) {
-		if (fire[i].age > fire[i].lifetime) { // reset particle when reaching end of life
+		if (fire[i].age > fire[i].lifetime) { 
 			fire[i].pos = Vector3(rand() % 2, 0, rand() % 1);
-			fire[i].vel = Vector3(0, 0, 0);
+			fire[i].velocity = Vector3(0, 0, 0);
+			//age reset
 			fire[i].age = 0;
 		}
 		else {
+			//width of the flame
+			int velocityRange = 40;
+			float scalingCoefficient = .5;
+
+			float dvx = 0.01*(rand() % velocityRange + 1);
+			bool posNegX = rand() % 2;
+
+			float dvz = 0.01*(rand() % velocityRange + 1);
+			bool posNegZ = rand() % 2;
+
 			float x = fire[i].pos.get(0);
 			float y = fire[i].pos.get(1);
 			float z = fire[i].pos.get(2);
 
-			float vx = fire[i].vel.get(0);
-			float vy = fire[i].vel.get(1);
-			float vz = fire[i].vel.get(2);
+			float vx = fire[i].velocity.get(0);
+			float vy = fire[i].velocity.get(1);
+			float vz = fire[i].velocity.get(2);
 
 			x += vx;
 			y += vy;
 			z += vz;
 
-			float pos_vx = 0.01*(rand() % 100 + 1);
-			float neg_vx = -0.01*(rand() % 100 + 1);
-			bool pick_pos_vx = rand() % 2;
 
-			float pos_vz = 0.01*(rand() % 100 + 1);
-			float neg_vz = -0.01*(rand() % 100 + 1);
-			bool pick_pos_vz = rand() % 2;
-
-
-			vx = 0.5* ((pick_pos_vx) ? pos_vx : neg_vx);
-			//y is straight up
-			vy = 0.5*(0.01*(rand() % 200 + 1));
-			vz = 0.5* ((pick_pos_vz) ? pos_vz : neg_vz);
+			vx = scalingCoefficient* ((posNegX) ? dvx : -dvx);
+			vy = scalingCoefficient*(0.01*(rand() % 80 + 1));
+			vz = scalingCoefficient* ((posNegZ) ? dvz : -dvz);
 
 
 			fire[i].pos = Vector3(x, y, z);
-			fire[i].vel = Vector3(vx, vy, vz);
+			fire[i].velocity = Vector3(vx, vy, vz);
 
 			fire[i].age += 0.2;
 		}
@@ -61,6 +63,7 @@ void FireParticleSystem::updateFire() {
 }
 
 void FireParticleSystem::drawFire() {
+
 	glEnable(GL_POINT_SMOOTH);
 	glPointSize(1);
 
@@ -83,11 +86,11 @@ void FireParticleSystem::drawFire() {
 
 void FireParticleSystem::render() {
 	if (playerNumber == 1 && Globals::player1Kicking) {
-	updateFire();
-	drawFire();
-}
-else if (playerNumber == 2 && Globals::player2Kicking) {
-	updateFire();
-	drawFire();
-}
+		updateFire();
+		drawFire();
+	}
+	else if (playerNumber == 2 && Globals::player2Kicking) {
+		updateFire();
+		drawFire();
+	}
 }

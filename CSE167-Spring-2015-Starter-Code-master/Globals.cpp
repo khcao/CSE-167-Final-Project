@@ -19,3 +19,9 @@ Vector4 Globals::pl[6];
 Matrix4 Globals::perspectiveMatrix;
 bool Globals::player1Kicking = false;
 bool Globals::player2Kicking = false;
+
+bool Globals::exploreMode = true;
+int Globals::player1Score = 0;
+int Globals::player2Score = 0;
+ Shader Globals::shader("./glowVertex.glsl","./glowPixel.glsl",true);
+ bool Globals::blurShaderToggle = true;

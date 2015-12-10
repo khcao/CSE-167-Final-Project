@@ -1,6 +1,7 @@
 #ifndef CSE167_Globals_h
 #define CSE167_Globals_h
 
+#include "Shader.h"
 #include "Camera.h"
 #include "Cube.h"
 #include "Light.h"
@@ -9,7 +10,6 @@
 #include "House.h"
 #include "OBJObject.h"
 #include "Sphere.h"
-
 class Globals
 {
     
@@ -34,6 +34,11 @@ public:
 	static
 		bool player1Kicking ;
 	static bool player2Kicking ;
+	static bool exploreMode;
+	static int player1Score;
+	static int player2Score;
+	static Shader shader;
+	static bool blurShaderToggle;
 };
 
 #endif

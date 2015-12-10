@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "City.h"
 #ifdef __APPLE__
     #include <GLUT/glut.h>
 #else
@@ -15,7 +16,6 @@
 #include "Group.h"
 #include "Player.h"
 #include <algorithm>
-#include "City.h"
 #include <algorithm> 
 #include <ctime>
 int Window::width  = 512;   //Set window width in pixels here
@@ -120,13 +120,59 @@ void Window::initialize(void)
 
 
 	cut = GenerateCity();
+	Globals::shader.printLog();
+}
+void renderBitmapString(float x, float y, void *font, std::string str)
+{
+	glRasterPos2f(100,100);
+	for (std::string::iterator c = (&str)->begin(); c != (&str)->end(); ++c)
+	{
+		glutBitmapCharacter(font, *c);
+	}
 }
 
+void displayScoreOverlay() {
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0.0, 100, 0.0, 100);
+	//player 1 score
+
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glRasterPos2i(10, 10);
+	std::string s = std::to_string(Globals::player1Score);
+	void * font = GLUT_BITMAP_TIMES_ROMAN_24;
+
+	for (std::string::iterator i = s.begin(); i != s.end(); ++i)
+	{
+		char c = *i;
+		glutBitmapCharacter(font, c);
+	}
+	//player 2 score
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glRasterPos2i(90, 10);
+	std::string s2 =  std::to_string(Globals::player2Score);
+	void * font2 = GLUT_BITMAP_TIMES_ROMAN_24;
+
+	for (std::string::iterator i = s2.begin(); i != s2.end(); ++i)
+	{
+		char c = *i;
+		glutBitmapCharacter(font2, c);
+	}
+	glPopMatrix();
+
+}
 //----------------------------------------------------------------------------
 // Callback method called when system is idle.
 // This is called at the start of every new "frame" (qualitatively)
 void Window::idleCallback()
 {
+	
+	if (Globals::exploreMode){
+			exploreIdleCallback();
+			return;
+	}
 	clock_t start;
 	double duration;
 	start = clock();
@@ -164,8 +210,9 @@ void Window::idleCallback()
 	Globals::camera.set(p1Pos, p2Pos, up);
 	glViewport(0, 0, width / 2, height / 2);
 	glScissor(0, 0, width / 2, height / 2);
-	displayCallback();
+	//player 1 display
 
+	displayCallback();
 
 	Vector3 p1PosB(player1.M.get(3, 0), player1.M.get(3, 1), player1.M.get(3, 2));
 	Vector3 p2PosB(player2.M.get(3, 0), player2.M.get(3, 1), player2.M.get(3, 2));
@@ -195,11 +242,13 @@ void Window::idleCallback()
 	gluPerspective(60.0, double(width) / (double)height * 2, 1.0, 1000.0); //Set perspective projection viewing frustum
 	glViewport(0, height / 2, width, height / 2);
 	glScissor(0, height / 2, width, height / 2);
+
 	displayCallback();
 
 	glMatrixMode(GL_PROJECTION);                                     //Set the OpenGL matrix mode to Projection
 	glLoadIdentity();                                                //Clear the projection matrix by loading the identity
 	gluPerspective(60.0, double(width) / (double)height, 1.0, 1000.0);
+	displayScoreOverlay();
 	glutSwapBuffers();
 
 
@@ -207,7 +256,55 @@ void Window::idleCallback()
 	//std::cout << "FPS: " << 1 / duration << endl;
 	//std::cout << "FPS: " << 1 / duration << std::endl;
 }
+void Window::exploreIdleCallback()
+{
+	reshapeCallback(width, height);
+	clock_t start;
+	double duration;
+	start = clock();
 
+	//Set up a static time delta for update calls
+	Globals::updateData.dt = 1.0 / 60.0;// 60 fps
+
+										// rotate the arms and legs
+										// if we jump, update that
+	player1.update();
+	player2.update();
+	Globals::player1Kicking = (player1.kicking);
+	Globals::player2Kicking = (player2.kicking);
+
+	Vector3 p1Pos(player1.M.get(3, 0), player1.M.get(3, 1), player1.M.get(3, 2));
+	Vector3 p2Pos(player2.M.get(3, 0), player2.M.get(3, 1), player2.M.get(3, 2));
+	Vector3 up(0, 1, 0);
+	Vector3 dMinusE = (p2Pos - p1Pos).normalize();
+	float dist = (p2Pos - p1Pos).magnitude();
+	Vector3 x = dMinusE.cross(up);
+	x = x.cross(dMinusE);
+	Vector3 eMinusD = (p1Pos - p2Pos).normalize();
+	p1Pos = p1Pos + (eMinusD.scale(15 + dist));
+	p1Pos = p1Pos + (x.scale(10));
+	p2Pos = p1Pos + (dMinusE.scale(10));
+	eMinusD.set(eMinusD[0], 0, eMinusD[2]);
+	while (p1Pos[1] < 2.0) {
+		p1Pos = p1Pos + (up.scale(0.5));
+		p1Pos = p1Pos + (eMinusD.scale(0.2));
+		p2Pos = p2Pos + (up.scale(0.5));
+	}
+
+	Globals::camera.set(p1Pos, p2Pos, up);
+	glViewport(0, 0, width , height );
+	glScissor(0, 0, width , height );
+	displayCallback();
+
+	displayScoreOverlay();
+	glutSwapBuffers();
+
+
+
+	duration = (clock() - start) / (double)CLOCKS_PER_SEC;
+	//std::cout << "FPS: " << 1 / duration << endl;
+	//std::cout << "FPS: " << 1 / duration << std::endl;
+}
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when graphics window is resized by the user
 void Window::reshapeCallback(int w, int h)
@@ -223,6 +320,7 @@ void Window::reshapeCallback(int w, int h)
 	Globals::camera.FOV = 60.0;
 	Globals::camera.windowW = double(width);
 	Globals::camera.windowH = double(height);
+	Globals::camera.update();
 }
 
 //----------------------------------------------------------------------------
@@ -454,5 +552,13 @@ void Window::keyPress(unsigned char key, int x, int y) {
 			else {
 				printing = true;
 			}
+			break;
+		case '1':Globals::exploreMode = !Globals::exploreMode;
+			break;
+		case '=':
+			Globals::blurShaderToggle = !Globals::blurShaderToggle;
+
+			std::cout << "Shader is now " << Globals::blurShaderToggle << std::endl; 
+			break;
 	}
 }

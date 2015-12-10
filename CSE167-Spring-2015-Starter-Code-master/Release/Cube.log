@@ -1,53 +1,14 @@
-﻿Build started 12/4/2015 8:24:08 PM.
-     1>Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" on node 2 (Build target(s)).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (Cube.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿Build started 12/9/2015 11:07:53 PM.
+     1>Project "C:\Users\CYV\Documents\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (Cube.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Window.cpp
-         Window.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"Release\Your Waifu Is Trash.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\glut\glut-3.7.6-bin" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Release\Your Waifu Is Trash.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Release\Your Waifu Is Trash.lib" /MACHINE:X86 /SAFESEH Release\BaseBuilding.obj
-         Release\Building.obj
-         Release\BuildingBlock.obj
-         Release\City.obj
-         Release\Cube.obj
-         Release\FireParticleSystem.obj
-         Release\FloorWindow.obj
-         Release\Geode.obj
-         Release\geometry.obj
-         Release\GiantBuilding.obj
-         Release\Group.obj
-         Release\House.obj
-         Release\main.obj
-         Release\Camera.obj
-         Release\Color.obj
-         Release\Light.obj
-         Release\Maison.obj
-         Release\MaisonClassique.obj
-         Release\Material.obj
-         Release\Matrix4.obj
-         Release\Drawable.obj
-         Release\DrawData.obj
-         Release\MatrixTransform.obj
-         Release\MetroBlock.obj
-         Release\mobilierUrbain.obj
-         Release\Node.obj
-         Release\Player.obj
-         Release\shape.obj
-         Release\SmallBuilding.obj
-         Release\Sphere.obj
-         Release\Texture.obj
-         Release\UpdateData.obj
-         Release\vector.obj
-         Release\Vector3.obj
-         Release\Vector4.obj
-         Release\Window.obj
-         Release\Globals.obj
-         Release\MathTestBench.obj
-         Release\OBJObject.obj
-     1>LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
-         Cube.vcxproj -> C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Release\Your Waifu Is Trash.exe
-     1>Done Building Project "C:\Users\Aeriello\Desktop\Kevin\School\3rd Year\FA15\CSE 167\Final Project\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" (Build target(s)).
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"C:\glut\glut-3.7.6-bin" /Zi /nologo /W3 /WX- /O2 /Oy- /D WIN32 /D NDEBUG /D _CONSOLE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt FireParticleSystem.cpp
+         FireParticleSystem.cpp
+     1>FireParticleSystem.cpp(34): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+     1>FireParticleSystem.cpp(37): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
+     1>FireParticleSystem.cpp(87): fatal error C1075: the left brace '{' was unmatched at the end of the file
+     1>Done Building Project "C:\Users\CYV\Documents\CSE-167-Final-Project\CSE167-Spring-2015-Starter-Code-master\Cube.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:01.01
+Time Elapsed 00:00:00.60

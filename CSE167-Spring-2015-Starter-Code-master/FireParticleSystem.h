@@ -5,26 +5,25 @@
 #include "Vector4.h"
 struct Particle {
 	Vector3 pos;
-	Vector3 vel;
 	Vector4 color;
-	float rotate;
 	float age;
 	float lifetime;
+	Vector3 velocity;
 
 	Particle() {
+		color = Vector4(0, 0, 0, 0);
 		pos = Vector3(0, 0, 0);
-		vel = Vector3(0, 0, 0);
-		color = Vector4(1, 1, 1, 1);
-		age = 0;
 		lifetime = 0;
+		velocity = Vector3(0, 0, 0);
+		age = 0;
 	}
 };
 class FireParticleSystem : public Geode
 {
 public:
 
-private:  int nParticles;
-		  float time, deltaT;
+private:  int numOfParticles;
+		  float time, changeInTime;
 		  int playerNumber;
 public:
 	void initializeFire(int);

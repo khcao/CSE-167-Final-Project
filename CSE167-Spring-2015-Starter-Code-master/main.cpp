@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     glEnable(GL_NORMALIZE);                                     //Auto normalize surface normals
     glEnable(GL_TEXTURE_2D);                                    //Enable 2D textures
     glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);        //Enable Local Viewer Light Model
-    
+	//glutFullScreen();
     //Register callback functions:
     glutDisplayFunc(Window::displayCallback);
     glutReshapeFunc(Window::reshapeCallback);

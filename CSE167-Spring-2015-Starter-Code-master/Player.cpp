@@ -153,6 +153,8 @@ Player::~Player()
 
 void Player::drawPlayer() {
 
+	if (Globals::blurShaderToggle)
+		Globals::shader.bind();
 	this->simDraw(this->M);
 	if (boundsOn) {
 		leftLegScale.drawWireCubeFromCube();
@@ -194,6 +196,9 @@ void Player::drawPlayer() {
 	else {
 		this->draw(this->M);
 	}
+
+	if (Globals::blurShaderToggle)
+		Globals::shader.unbind();
 }
 
 void Player::initiateJump() {
@@ -342,6 +347,10 @@ void Player::checkCollisionAlpha() {
 		if (meToEnemy.toVector3().magnitude() < enemy->fullBody.radius + leftLegScale.radius) {
 			if (enemy->rekt == false) {
 				std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+				if (this->playerID == 1)
+					Globals::player1Score++;
+				else
+					Globals::player2Score++;
 			}
 			enemy->rekt = true;
 			enemy->fullBody.collided = true;
@@ -416,6 +425,10 @@ bool Player::checkHeadCollision() {
 				enemy->headScale.collided = true;
 				if (enemy->rekt == false) {
 					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+					if (this->playerID == 1)
+						Globals::player1Score++;
+					else
+						Globals::player2Score++;
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
@@ -448,6 +461,10 @@ bool Player::checkTorsoCollision() {
 				enemy->torsoScale.collided = true;
 				if (enemy->rekt == false) {
 					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+					if (this->playerID == 1)
+						Globals::player1Score++;
+					else
+						Globals::player2Score++;
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
@@ -480,6 +497,10 @@ bool Player::checkLeftArmCollision() {
 				enemy->leftArmScale.collided = true;
 				if (enemy->rekt == false) {
 					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+					if (this->playerID == 1)
+						Globals::player1Score++;
+					else
+						Globals::player2Score++;
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
@@ -512,6 +533,10 @@ bool Player::checkRightArmCollision() {
 				enemy->rightArmScale.collided = true;
 				if (enemy->rekt == false) {
 					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+					if (this->playerID == 1)
+						Globals::player1Score++;
+					else
+						Globals::player2Score++;
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
@@ -544,6 +569,10 @@ bool Player::checkLeftLegCollision() {
 				enemy->leftLegScale.collided = true;
 				if (enemy->rekt == false) {
 					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+					if (this->playerID == 1)
+						Globals::player1Score++;
+					else
+						Globals::player2Score++;
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;
@@ -576,6 +605,10 @@ bool Player::checkRightLegCollision() {
 				enemy->rightLegScale.collided = true;
 				if (enemy->rekt == false) {
 					std::cout << "Player " << enemy->playerID << " got REEEEEEEKT" << std::endl;
+					if (this->playerID == 1)
+						Globals::player1Score++;
+					else
+						Globals::player2Score++;
 				}
 				enemy->rekt = true;
 				leftLegScale.collided = true;

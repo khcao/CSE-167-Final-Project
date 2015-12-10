@@ -16,6 +16,7 @@ public:
     static void displayCallback(void);
 	static void keyPress(unsigned char, int, int);
 	static void fKeyPress(int, int, int);
+	static void exploreIdleCallback(void);
 	//static void centerAndScale(Drawable *);
 };
 
